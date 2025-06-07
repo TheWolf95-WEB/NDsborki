@@ -422,6 +422,7 @@ async def confirm_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "image": context.user_data['image'],
         "author": update.effective_user.full_name
     }
+
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     if os.path.exists(DB_PATH):
         with open(DB_PATH, 'r') as f:
@@ -432,9 +433,19 @@ async def confirm_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
     with open(DB_PATH, 'w') as f:
         json.dump(data, f, indent=2)
 
-    await update.message.reply_text("✅ Сборка успешно добавлена!", reply_markup=ReplyKeyboardRemove())
-    await start(update, context)
-    return ConversationHandler.END
+    # Новая клавиатура с вариантами
+    keyboard = [
+        ["➕ Добавить ещё одну сборку"],
+        ["◀ Отмена"]
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    await update.message.reply_text(
+        "✅ Сборка успешно добавлена!\n\nЧто хотите сделать дальше?",
+        reply_markup=reply_markup
+    )
+
+    return POST_CONFIRM
 
 # === Команда /help ===
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -612,6 +623,11 @@ add_conv = ConversationHandler(
             MessageHandler(filters.PHOTO | filters.Document.IMAGE, reject_early_image),
             CallbackQueryHandler(module_variant_callback),
         ],
+        POST_CONFIRM: [
+            MessageHandler(filters.Regex("➕ Добавить ещё одну сборку"), add_start),
+            MessageHandler(filters.Regex("◀ Отмена"), start)
+        ],
+
 
 
         IMAGE_UPLOAD: [MessageHandler(filters.PHOTO | filters.Document.IMAGE, handle_image)],
@@ -626,7 +642,7 @@ add_conv = ConversationHandler(
 
     },
    fallbacks=[
-    CommandHandler("cancel", cancel),
+    CommandHandler("cancel", cancel),борка успешно добавлена
     CommandHandler("update", update_bot_command),  # сюда
 ]
 )

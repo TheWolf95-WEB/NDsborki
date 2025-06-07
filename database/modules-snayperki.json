@@ -1,0 +1,286 @@
+{
+    "Дуло": [
+        {
+            "ru": "Глушитель",
+            "en": "suppressor"
+        },
+        {
+            "ru": "Компенсатор",
+            "en": "Compennsator"
+        },
+        {
+            "ru": "Дульный тормоз",
+            "en": "Muzzle Brake"
+        },
+        {
+            "ru": "ДТК",
+            "en": "Ported Compencator"
+        },
+        {
+            "ru": "Монолитный глушитель",
+            "en": "Monolithic Suppressor"
+        }
+    ],
+    "Ствол": [
+        {
+            "ru": "Ствол с переменным шагом нарезов",
+            "en": "Gain-Twist Barrel"
+        },
+        {
+            "ru": "Удлиненный ствол",
+            "en": "Long Barrel"
+        },
+        {
+            "ru": "Усиленный ствол",
+            "en": "Reinforced Barrel"
+        },
+        {
+            "ru": "Короткий ствол",
+            "en": "Short Barrel"
+        },
+        {
+            "ru": "Ствол холодной ковки",
+            "en": "CHF Barrel"
+        }
+    ],
+    "Подствольная планка": [
+        {
+            "ru": "Вертикальная рукоятка",
+            "en": "Vertical Foregrip"
+        },
+        {
+            "ru": "Облегченная рукоятка",
+            "en": "Lightweight Foregrip"
+        },
+        {
+            "ru": "Снайперская рукоятка",
+            "en": "Marksman Hadguard"
+        },
+        {
+            "ru": "Высокоточная рукоятка",
+            "en": "Precision Handguard"
+        },
+        {
+            "ru": "Рейнджерская рукоятка",
+            "en": "Ranger Foregrip"
+        },
+        {
+            "ru": "Сбалансированная рукоять",
+            "en": "Weighted Handguard"
+        },
+        {
+            "ru": "Легкие сошки",
+            "en": "Lightweight bipod"
+        },
+        {
+            "ru": "Пехотные сошки",
+            "en": "Marksman Bipod"
+        }
+    ],
+    "Магазин": [
+        {
+            "ru": "Увеличенный магазин 1",
+            "en": "Extented Mag 1"
+        },
+        {
+            "ru": "Увеличенный магазин 2",
+            "en": "Extented Mag 2"
+        },
+        {
+            "ru": "Быстросъемный магазин 1",
+            "en": "Fast Mag 1"
+        },
+        {
+            "ru": "Быстросъемный магазин 2",
+            "en": "Fast Mag 2"
+        }
+    ],
+    "Тыльник приклада": [
+        {
+            "ru": "Сбалансированный приклад",
+            "en": "Weighted Pad"
+        },
+        {
+            "ru": "Облегченный приклад",
+            "en": "Lightweight Pad"
+        },
+        {
+            "ru": "Снайперский приклад",
+            "en": "Marksman Pad"
+        },
+        {
+            "ru": "Высокотчный приклад",
+            "en": "Precision Pad"
+        },
+        {
+            "ru": "Рейнджерский приклад",
+            "en": "Ranger Pad"
+        }
+    ],
+    "Накладка": [
+        {
+            "ru": "Упор для быстрого прицеливания",
+            "en": "Weighted Hadguard"
+        },
+        {
+            "ru": "Боевой упор",
+            "en": "Lightweight Hadguard"
+        },
+        {
+            "ru": "Упор коммандос",
+            "en": "Marksman Hadguard"
+        },
+        {
+            "ru": "Эргоном упор",
+            "en": "Precision Hadguard"
+        },
+        {
+            "ru": "Упор для ближнего дистанция",
+            "en": "Ranger Hadguard"
+        },
+        {
+            "ru": "Упор для быстрого прицеливания",
+            "en": "Quikdraw Riser"
+        },
+        {
+            "ru": "Боевой упор",
+            "en": "Combat Riser"
+        },
+        {
+            "ru": "Упор коммандос",
+            "en": "Commando Riser"
+        },
+        {
+            "ru": "Эргоном упор",
+            "en": "Ergonomic Riser"
+        },
+        {
+            "ru": "Упор для быстр приц",
+            "en": "CQB Riser"
+        },
+        {
+            "ru": "сбаланс накладка",
+            "en": "Balanced Riser"
+        },
+        {
+            "ru": "Упор лазутчика",
+            "en": "Infiltrator Riser"
+        },
+        {
+            "ru": "Тяжелый упор",
+            "en": "Heavy Riser"
+        },
+        {
+            "ru": "Легкий упор",
+            "en": "Light Riser"
+        }
+    ],
+    "Задняя рукоять": [
+        {
+            "ru": "Для быстрого прицеливания",
+            "en": "Quickdraw Grip"
+        },
+        {
+            "ru": "Штурмовая рукоять",
+            "en": "Assault Grip"
+        },
+        {
+            "ru": "Рукоять Коммандос",
+            "en": "Commando Grip"
+        },
+        {
+            "ru": "Эргонимическая рукоять",
+            "en": "Ergonomic Grip"
+        },
+        {
+            "ru": "Рукоять для ближних дистанций",
+            "en": "CQB Grip"
+        }
+    ],
+    "Приклад": [
+        {
+            "ru": "Облегченный приклад",
+            "en": "Light Stock"
+        },
+        {
+            "ru": "Приклад Лазутчика",
+            "en": "Infiltrator Stock"
+        },
+        {
+            "ru": "Тяжелый приклад",
+            "en": "Heavy Stock"
+        },
+        {
+            "ru": "Сбалансированный приклад",
+            "en": "Balanced Stock"
+        },
+        {
+            "ru": "Боевой приклад",
+            "en": "Combat Stock"
+        }
+    ],
+    "Лазер": [
+        {
+            "ru": "Стабилизированный лцу",
+            "en": "Steady Ain Laser"
+        },
+        {
+            "ru": "Лцу для маневренного боя",
+            "en": "Fast Motion Laser"
+        },
+        {
+            "ru": "Тактический лцу",
+            "en": "Tactical Laser"
+        },
+        {
+            "ru": "Лцу strelok",
+            "en": "Strelok Laser"
+        },
+        {
+            "ru": "Лцу",
+            "en": "Target Laser"
+        }
+    ],
+    "Модификация огня": [
+        {
+            "ru": "Скорострельность",
+            "en": "Rapid Fire"
+        },
+        {
+            "ru": "Пружинный демпфер",
+            "en": "Recoil Springs"
+        },
+        {
+            "ru": "7,62x54 mm R(усиленные)",
+            "en": "5,45x39 mm Overpressured"
+        },
+        {
+            "ru": "7,62x54 mm R(ЦМО)",
+            "en": "5,45x39 mm FMJ"
+        },
+        {
+            "ru": "7,62 Nato (Усиленные)",
+            "en": "7,62 Nato Overpressured"
+        },
+        {
+            "ru": "7,62 Nato(ЦМО)",
+            "en": "7,62 Nato FMJ"
+        },
+        {
+            "ru": ".50 BMG(Усиленные)",
+            "en": ".50 BMG Overpressured"
+        },
+        {
+            "ru": ".50 BMG(ЦМО)",
+            "en": ".50 BMG FMJ"
+        },
+        {
+            "ru": "108 mm(ЦМО)",
+            "en": "108 mm FMJ"
+        },
+        {
+            "ru": "108 mm(Усиленные)",
+            "en": "108 mm Overpressured"
+        }
+    ]
+}

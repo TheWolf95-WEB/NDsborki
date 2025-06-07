@@ -1,0 +1,250 @@
+{
+    "Дуло": [
+        {
+            "ru": "Глушитель",
+            "en": "suppressor"
+        },
+        {
+            "ru": "Компенсатор",
+            "en": "Compennsator"
+        },
+        {
+            "ru": "Дульный тормоз",
+            "en": "Muzzle Brake"
+        },
+        {
+            "ru": "ДТК",
+            "en": "Ported Compencator"
+        },
+        {
+            "ru": "Монолитный глушитель",
+            "en": "Monolithic Suppressor"
+        }
+    ],
+    "Ствол": [
+        {
+            "ru": "Ствол с переменным шагом нарезов",
+            "en": "Gain-Twist Barrel"
+        },
+        {
+            "ru": "Ствол с переменным шагом нарезов и глушителем",
+            "en": "Suppressed Gain-Twist Barrel"
+        },
+        {
+            "ru": "Удлиненный ствол",
+            "en": "Long Barrel"
+        },
+        {
+            "ru": "Удлиненный ствол с глушителем",
+            "en": "Suppressed Long barrel"
+        },
+        {
+            "ru": "Усиленный ствол",
+            "en": "Reinforced Barrel"
+        },
+        {
+            "ru": "Усиленный ствол с глушителем",
+            "en": "Suppressed Reinforced Barrel"
+        },
+        {
+            "ru": "Короткий ствол",
+            "en": "Short Barrel"
+        },
+        {
+            "ru": "Ствол холодной ковки",
+            "en": "CHF Barrel"
+        },
+        {
+            "ru": "Ствол холодной ковки с глушителем",
+            "en": "Suppressed CHF Barrel"
+        }
+    ],
+    "Подствольная планка": [
+        {
+            "ru": "Вертикальная рукоятка",
+            "en": "Vertical Foregrip"
+        },
+        {
+            "ru": "Облегченная рукоятка",
+            "en": "Lightweight Foregrip"
+        },
+        {
+            "ru": "Снайперская рукоятка",
+            "en": "Marksman Foresgrip"
+        },
+        {
+            "ru": "Высокоточная рукоятка",
+            "en": "Precision Foregrip"
+        },
+        {
+            "ru": "Рейнджерская рукоятка",
+            "en": "Ranger Foregrip"
+        }
+    ],
+    "Магазин": [
+        {
+            "ru": "Увеличенный магазин 1",
+            "en": "Extented Mag 1"
+        },
+        {
+            "ru": "Увеличенный магазин 2",
+            "en": "Extented Mag 2"
+        },
+        {
+            "ru": "Увеличенный магазин 3",
+            "en": "Extented Mag 3"
+        },
+        {
+            "ru": "Быстросъемный магазин 1",
+            "en": "Fast Mag 1"
+        },
+        {
+            "ru": "Быстросъемный магазин 2",
+            "en": "Fast Mag 2"
+        },
+        {
+            "ru": "Сдвоенный магазин",
+            "en": "Flip Mag"
+        },
+        {
+            "ru": "10 патронов M-67 магазин",
+            "en": "M-67 10-R Mags"
+        }
+    ],
+    "Задняя рукоять": [
+        {
+            "ru": "Для быстрого прицеливания",
+            "en": "Quickdraw Grip"
+        },
+        {
+            "ru": "Штурмовая рукоять",
+            "en": "Assault Grip"
+        },
+        {
+            "ru": "Рукоять Коммандос",
+            "en": "Commando Grip"
+        },
+        {
+            "ru": "Эргонимическая рукоять",
+            "en": "Ergonomic Grip"
+        },
+        {
+            "ru": "Рукоять для ближних дистанция",
+            "en": "CQB Grip"
+        }
+    ],
+    "Приклад": [
+        {
+            "ru": "Облегченный Приклад",
+            "en": "Light Stock"
+        },
+        {
+            "ru": "Без приклада",
+            "en": "No Stock"
+        },
+        {
+            "ru": "Приклад Лазутчика",
+            "en": "Infiltrator Stock"
+        },
+        {
+            "ru": "Тяжелый Приклад",
+            "en": "Heavy Stock"
+        },
+        {
+            "ru": "Сбалансированный Приклад",
+            "en": "Balanced Stock"
+        },
+        {
+            "ru": "Боевой Приклад",
+            "en": "Combat Stock"
+        },
+        {
+            "ru": "Приклад С буфером",
+            "en": "Buffer Weight Stock"
+        },
+        {
+            "ru": "Монолитный Приклад",
+            "en": "Full Stock"
+        }
+    ],
+    "Лазер": [
+        {
+            "ru": "Стабилизированный лцу",
+            "en": "Steady Ain Laser"
+        },
+        {
+            "ru": "Лцу для маневренного боя",
+            "en": "Fast Motion Laser"
+        },
+        {
+            "ru": "Тактический лцу",
+            "en": "Tactical Laser"
+        },
+        {
+            "ru": "Лцу strelok",
+            "en": "Strelok Laser"
+        },
+        {
+            "ru": "Лцу",
+            "en": "Target Laser"
+        }
+    ],
+    "Модификация огня": [
+        {
+            "ru": "XM4: модификация по 3 пт",
+            "en": "XM4 3-Round  Burst Mod"
+        },
+        {
+            "ru": "Скорострельность",
+            "en": "Rapid Fire"
+        },
+        {
+            "ru": "5,45x39 mm(усиленные)",
+            "en": "5,45x39 mm Overpressured"
+        },
+        {
+            "ru": "5,56 НАТО(усиленные)",
+            "en": "5,56 Nato Overpressured"
+        },
+        {
+            "ru": "7,62 НАТО(усиленные)",
+            "en": "7,62 Nato Overpressured"
+        },
+        {
+            "ru": "9,39 mm CCCP(усиленные)",
+            "en": "9,39mm Soviet overpressured"
+        },
+        {
+            "ru": "7,62x39mm(усиленные)",
+            "en": "7,62x39mm Overpressured"
+        },
+        {
+            "ru": "Пружинный демпфер",
+            "en": "Recoil Springs"
+        },
+        {
+            "ru": "5,45x39 mm(цмo)",
+            "en": "5,45x39 mm FMJ"
+        },
+        {
+            "ru": "5,56 НАТО(цмo)",
+            "en": "5,56 Nato FMJ"
+        },
+        {
+            "ru": "7,62 НАТО(цмо)",
+            "en": "7,62 Nato(cmo)"
+        },
+        {
+            "ru": "9,39 mm CCCP(цмо)",
+            "en": "9,39mm Soviet FMJ"
+        },
+        {
+            "ru": "7,62x39mm(цмо)",
+            "en": "7,62x39mm FMJ"
+        },
+        {
+            "ru": "Конверсия goblin mk2 7,62 mm (мини ракеты)",
+            "en": "Goblin mk2 7.62mm Conversion (Mini Rockets)"
+        }
+    ]
+}

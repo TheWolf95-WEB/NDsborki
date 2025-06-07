@@ -130,7 +130,8 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 # Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 async def view_set_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['selected_weapon'] = update.message.text
+    context.user_data['selected_category'] = context.user_data.get('selected_category')
+
 
     # Загружаем сборки из БД
     with open(DB_PATH, 'r') as f:
@@ -173,6 +174,7 @@ async def view_display_builds(update: Update, context: ContextTypes.DEFAULT_TYPE
         len(b['modules']) == count and
         b.get('category') == context.user_data.get('selected_category')
     ]
+
 
 
 

@@ -83,7 +83,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             " • Смотреть сборки оружия из Warzone\n"
             " • Выбирать тип и кол-во модулей для фильтра\n"
             " • Листать подходящие варианты с фото и автором\n\n"
-            "📍 Жми <b>«📋 Все сборки»</b>, чтобы начать!\n\n"
+            "📍 Жми <b>«Сборки Warzone»</b>, чтобы начать!\n\n"
             "⚠️ Добавление сборок доступно только администраторам.\n\n"
             "💬 Если есть идеи или нашёл баг — пиши @nd_admin95\n\n"
             "🛠 Бот будет постоянно обновляться и улучшаться!!"
@@ -95,7 +95,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === универсальная функция для клавиатуры === 
 def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
-    menu = [['📋 Все сборки']]
+    menu = [['📋 СБОРКИ WARZONE']]
     if user_id in ALLOWED_USERS:
         menu.append(['➕ Добавить сборку'])
     return ReplyKeyboardMarkup(menu, resize_keyboard=True)
@@ -226,7 +226,7 @@ async def send_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
         nav_row.append("➡ Следующая")
     if nav_row:
         nav.append(nav_row)
-    nav.append(["📋 Все сборки"])
+    nav.append(["📋 Сборки Warzone"])
     markup = ReplyKeyboardMarkup(nav, resize_keyboard=True)
 
     if os.path.exists(build['image']):
@@ -578,7 +578,7 @@ async def show_all_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Список сборок пуст.")
         return
 
-    lines = ["📄 <b>Все сборки:</b>"]
+    lines = ["📄 <b>Сборки Warzone:</b>"]
     for idx, b in enumerate(data, start=1):
             lines.append(
                 f"<b>{idx}. {b['weapon_name'].upper()}</b>\n"
@@ -667,7 +667,7 @@ app.add_handler(add_conv)
 
 
 view_conv = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex("📋 Все сборки"), show_all_builds)],
+    entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), show_all_builds)],
     states={
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
@@ -675,7 +675,7 @@ view_conv = ConversationHandler(
             MessageHandler(filters.Regex("5|8"), view_display_builds),
             MessageHandler(filters.Regex("➡ Следующая"), next_build),
             MessageHandler(filters.Regex("⬅ Предыдущая"), previous_build),
-            MessageHandler(filters.Regex("📋 Все сборки"), show_all_builds),
+            MessageHandler(filters.Regex("📋 Сборки Warzone"), show_all_builds),
             MessageHandler(filters.Regex("◀ Назад"), view_set_count),
         ]
     },

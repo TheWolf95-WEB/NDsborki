@@ -642,7 +642,7 @@ add_conv = ConversationHandler(
 
     },
    fallbacks=[
-    CommandHandler("cancel", cancel),борка успешно добавлена
+    CommandHandler("cancel", cancel),
     CommandHandler("update", update_bot_command),  # сюда
 ]
 )

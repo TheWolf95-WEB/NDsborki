@@ -95,7 +95,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === универсальная функция для клавиатуры === 
 def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
-    menu = [['📋 СБОРКИ WARZONE']]
+    menu = [['📋 Сборки Warzone']]
     if user_id in ALLOWED_USERS:
         menu.append(['➕ Добавить сборку'])
     return ReplyKeyboardMarkup(menu, resize_keyboard=True)

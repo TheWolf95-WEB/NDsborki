@@ -525,15 +525,29 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # === Команда ОБНОВИТЬ ===
-
 async def update_bot_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data.clear()  # Сброс всех пользовательских данных
+    if update.effective_user.id not in ALLOWED_USERS:
+        await update.message.reply_text("⛔ У вас нет доступа к этой команде.")
+        return
 
-    user_id = update.effective_user.id
-    await update.message.reply_text("🔄 Бот обновлён. Вы вернулись в главное меню.", reply_markup=get_main_menu(user_id))
+    await update.message.reply_text("📥 Получаю обновления с GitHub...")
 
+    try:
+        result = subprocess.run(["git", "pull"], capture_output=True, text=True)
+        output = result.stdout + result.stderr
 
-    return ConversationHandler.END
+        await update.message.reply_text(f"✅ Обновление завершено:\n<pre>{output}</pre>", parse_mode="HTML")
+    except Exception as e:
+        await update.message.reply_text(f"❌ Ошибка при обновлении: {e}")
+        return
+
+    await update.message.reply_text("♻️ Перезапуск бота...")
+    
+    # Сохраняем ID для уведомления после запуска
+    with open("restart_message.txt", "w") as f:
+        f.write(str(update.effective_user.id))
+
+    subprocess.run(["systemctl", "restart", "ndsborki.service"])
 
 
 
@@ -572,37 +586,10 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === /restart ===
 async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.effective_user
-    if user.id not in ALLOWED_USERS:
-        await update.message.reply_text("❌ У вас нет прав для перезапуска.")
-        return
+    user_id = update.effective_user.id
+    await update.message.reply_text("🔄 Бот перезапускается...", reply_markup=get_main_menu(user_id))
+    return ConversationHandler.END
 
-    # Сообщение пользователю о начале перезапуска
-    await update.message.reply_text("♻️ Перезапуск через systemd...\nОжидайте пару секунд...")
-
-    # Уведомление в админский канал
-    try:
-        await context.bot.send_message(
-            chat_id=ADMIN_ID,
-            text=(
-                f"⚙️ <b>Перезапуск инициирован</b>\n"
-                f"👤 <b>{user.full_name}</b>\n"
-                f"🆔 <code>{user.id}</code>"
-            ),
-            parse_mode="HTML"
-        )
-    except Exception as e:
-        logging.warning(f"❌ Не удалось отправить лог в канал: {e}")
-
-    # Задержка, чтобы сообщение выше успело отправиться
-    await asyncio.sleep(1)
-
-    # Сообщение пользователю — будет отображаться после следующего запуска
-    with open("restart_message.txt", "w") as f:
-        f.write(str(user.id))
-
-    # Перезапуск systemd-сервиса
-    subprocess.run(["systemctl", "restart", "ndsborki.service"])
 
 
 

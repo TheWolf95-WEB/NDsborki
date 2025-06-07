@@ -52,7 +52,7 @@ DB_PATH = 'database/builds.json'
 
 # Этапы диалога для ConversationHandler
 (WEAPON_NAME, ROLE_INPUT, CATEGORY_SELECT, MODE_SELECT, TYPE_CHOICE, MODULE_COUNT, MODULE_SELECT, IMAGE_UPLOAD, CONFIRMATION,
- VIEW_WEAPON, VIEW_SET_COUNT, VIEW_DISPLAY, POST_CONFIRM) = range(12)
+ VIEW_WEAPON, VIEW_SET_COUNT, VIEW_DISPLAY, POST_CONFIRM) = range(13)
 
 
 # === Утилита для добавления кнопки главного меню ===

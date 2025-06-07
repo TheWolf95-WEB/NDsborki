@@ -51,7 +51,7 @@ DB_PATH = 'database/builds.json'
 
 
 # Этапы диалога для ConversationHandler
-(WEAPON_NAME, ROLE_INPUT, MODE_SELECT, TYPE_CHOICE, MODULE_COUNT, MODULE_SELECT, IMAGE_UPLOAD, CONFIRMATION,
+(WEAPON_NAME, ROLE_INPUT, CATEGORY_SELECT, MODE_SELECT, TYPE_CHOICE, MODULE_COUNT, MODULE_SELECT, IMAGE_UPLOAD, CONFIRMATION,
  VIEW_WEAPON, VIEW_SET_COUNT, VIEW_DISPLAY, POST_CONFIRM) = range(12)
 
 
@@ -257,7 +257,7 @@ async def add_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Введите название оружия:", reply_markup=ReplyKeyboardRemove())
     return WEAPON_NAME
 
-# Запрашивает название оружия и Дистанция
+# Запрашивает название оружия и Дистанция 
 async def get_weapon_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['weapon'] = update.message.text
     await update.message.reply_text("Теперь введите Дистанцию оружия")
@@ -265,8 +265,16 @@ async def get_weapon_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def get_weapon_role(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['role'] = update.message.text
+    buttons = [["Топовая мета"], ["Мета"], ["Новинки"]]
+    await update.message.reply_text("Выберите категорию сборки:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+    return CATEGORY_SELECT
+
+# новый обработчик выбора категориии и режимаConversationHandle
+async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['category'] = update.message.text
     await update.message.reply_text("Выберите режим:", reply_markup=ReplyKeyboardMarkup([["Warzone"]], resize_keyboard=True))
     return MODE_SELECT
+
 
 
 # Запрашивает тип оружия)
@@ -416,6 +424,7 @@ async def confirm_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
     new_build = {
         "weapon_name": context.user_data['weapon'],
         "role": context.user_data.get('role', ''),
+        "category": context.user_data.get("category", "Мета"),
         "mode": context.user_data['mode'],
         "type": context.user_data['type'],
         "modules": context.user_data['detailed_modules'],
@@ -627,6 +636,8 @@ add_conv = ConversationHandler(
             MessageHandler(filters.Regex("➕ Добавить ещё одну сборку"), add_start),
             MessageHandler(filters.Regex("◀ Отмена"), start)
         ],
+        CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_category)],
+
 
 
 

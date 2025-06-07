@@ -547,12 +547,6 @@ async def update_bot_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
     with open("restart_message.txt", "w") as f:
         f.write(str(update.effective_user.id))
 
-    subprocess.run(["systemctl", "restart", "ndsborki.service"])
-
-
-
-
-
 
 # === Команда /show_all — список всех сборок текстом ===
 async def show_all_command(update: Update, context: ContextTypes.DEFAULT_TYPE):

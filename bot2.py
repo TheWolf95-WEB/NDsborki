@@ -93,7 +93,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-
 # === универсальная функция для клавиатуры === 
 def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
     menu = [['📋 Все сборки']]

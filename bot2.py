@@ -170,8 +170,10 @@ async def view_display_builds(update: Update, context: ContextTypes.DEFAULT_TYPE
     filtered = [
         b for b in builds
         if b['type'] == context.user_data['selected_type'] and
-        len(b['modules']) == count
+        len(b['modules']) == count and
+        b.get('category') == context.user_data.get('selected_category')
     ]
+
 
 
     if not filtered:

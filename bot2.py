@@ -1,12 +1,16 @@
 # Запуск уведомления после run_polling
+# Запуск уведомления после run_polling
 async def on_startup(app):
     if os.path.exists("restart_message.txt"):
         with open("restart_message.txt", "r") as f:
             user_id = int(f.read().strip())
         try:
-            await app.bot.send_message(user_id, "✅ Бот успешно перезапущен и снова в строю!")
+            await app.bot.send_message(user_id, "✅ Бот успешно перезапущен. Возвращаюсь в главное меню...")
+            # Возвращаем главное меню
+            from handlers import start  # если start отдельно
+            await start(Update.de_json({'message': {'chat': {'id': user_id}, 'text': '/start'}}, app.bot), None)
         except Exception as e:
-            logging.warning(f"❌ Не удалось отправить сообщение пользователю после рестарта: {e}")
+            logging.warning(f"❌ Не удалось отправить сообщение после рестарта: {e}")
         os.remove("restart_message.txt")
 
 
@@ -602,10 +606,22 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 # === /restart ===
-async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@admin_only
+async def restart_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    await update.message.reply_text("🔄 Бот перезапускается...", reply_markup=get_main_menu(user_id))
-    return ConversationHandler.END
+
+    # 🧹 Сброс пользовательских данных (этапов)
+    context.user_data.clear()
+
+    # 🔄 Сообщение пользователю
+    await update.message.reply_text("🔄 Бот перезапускается...\n⏳ Пожалуйста, подождите пару секунд...")
+
+    # 💾 Сохраняем ID для post-restart уведомления
+    with open("restart_message.txt", "w") as f:
+        f.write(str(user_id))
+
+    # 💣 Завершаем процесс — systemd сам перезапустит
+    os._exit(0)
 
 
 

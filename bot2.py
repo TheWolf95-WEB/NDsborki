@@ -65,6 +65,15 @@ def build_keyboard_with_main(buttons: list[list[str]]) -> ReplyKeyboardMarkup:
         buttons.append(["🏠 Главное меню"])
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
+def admin_only(func):
+    async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        user_id = update.effective_user.id
+        if str(user_id) not in os.getenv("ALLOWED_USERS", "").split(","):
+            await update.message.reply_text("❌ У тебя нет прав для этой команды.")
+            return
+        return await func(update, context)
+    return wrapper
+
 
  # === Функция для загрузки типов === 
 def load_weapon_types():
@@ -606,7 +615,8 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return ConversationHandler.END
 
 # === /restart ===
-async def restart_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+@admin_only
+async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
 
     # 🧹 Сброс пользовательских данных (этапов)

@@ -61,8 +61,8 @@ DB_PATH = 'database/builds.json'
 
 
 # Этапы диалога для ConversationHandler
-(WEAPON_NAME, ROLE_INPUT, CATEGORY_SELECT, MODE_SELECT, TYPE_CHOICE, MODULE_COUNT, MODULE_SELECT, IMAGE_UPLOAD, CONFIRMATION,
- VIEW_WEAPON, VIEW_SET_COUNT, VIEW_DISPLAY, POST_CONFIRM) = range(13)
+(WEAPON_NAME, ROLE_INPUT, CATEGORY_SELECT, VIEW_CATEGORY_SELECT, MODE_SELECT, TYPE_CHOICE, MODULE_COUNT, MODULE_SELECT, IMAGE_UPLOAD, CONFIRMATION,
+ VIEW_WEAPON, VIEW_SET_COUNT, VIEW_DISPLAY, POST_CONFIRM) = range(14)
 
 
 # === Утилита для добавления кнопки главного меню ===
@@ -140,7 +140,7 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
     context.user_data['selected_type'] = update.message.text
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
-    weapons = sorted(set(b['weapon_name'] for b in data if b['type'] == context.user_data['selected_type']))
+    weapons = sorted(set(b['weapon_name'] for b in data if b['type'] == context.user_data['selected_type'] and b.get('category') == context.user_data.get('selected_category')))
     if not weapons:
         await update.message.reply_text("Сборок по этому типу пока нет.")
         return ConversationHandler.END
@@ -194,12 +194,12 @@ async def view_display_builds(update: Update, context: ContextTypes.DEFAULT_TYPE
         builds = json.load(f)
 
     filtered = [
-        b for b in builds
-        if b['type'] == context.user_data['selected_type'] and
-        len(b['modules']) == count and
-        b.get('category') == context.user_data.get('selected_category')
-    ]
-
+       b for b in builds
+       if b['type'] == context.user_data['selected_type'] and
+       b['weapon_name'] == context.user_data['selected_weapon'] and
+       len(b['modules']) == count and
+       b.get('category') == context.user_data.get('selected_category')
+     ]
 
 
 
@@ -649,7 +649,28 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 💣 Завершаем процесс — systemd сам перезапустит
     os._exit(0)
 
+# Выбор категории в пользов части
+async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    with open(DB_PATH, 'r') as f:
+        data = json.load(f)
 
+    categories = sorted(set(b.get('category', 'Мета') for b in data if b.get('mode', '').lower() == 'warzone'))
+
+    # Если пользователь выбирает категорию (второй заход)
+    if update.message.text in categories:
+        context.user_data['selected_category'] = update.message.text
+        types = sorted(set(
+            b['type'] for b in data
+            if b.get('mode', '').lower() == 'warzone' and b.get('category') == update.message.text
+        ))
+        buttons = [[t] for t in types]
+        await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+        return VIEW_WEAPON
+
+    # Первый заход — предложить категории
+    buttons = [[c] for c in categories]
+    await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+    return VIEW_CATEGORY_SELECT
 
 
 # === Регистрация хендлеров ===
@@ -713,8 +734,9 @@ app.add_handler(add_conv)
 
 
 view_conv = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), show_all_builds)],
+    entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), view_category_select)],
     states={
+        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_category_select)],
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
         VIEW_DISPLAY: [
@@ -726,8 +748,9 @@ view_conv = ConversationHandler(
         ]
     },
     fallbacks=[
-        CommandHandler("update", update_bot_command),  # 👈 сюда правильно
+        CommandHandler("update", update_bot_command),
     ]
+)
 )
 app.add_handler(view_conv)
 

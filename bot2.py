@@ -307,10 +307,14 @@ async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Запрашивает тип оружия)
+# Запрашивает тип оружия
 async def get_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['mode'] = update.message.text
     weapon_types = load_weapon_types()
-    buttons = [[t] for t in weapon_types]
+
+    # группируем по 2 в строку
+    buttons = [weapon_types[i:i+2] for i in range(0, len(weapon_types), 2)]
+
     await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return TYPE_CHOICE
 

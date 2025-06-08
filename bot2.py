@@ -736,7 +736,7 @@ app.add_handler(add_conv)
 view_conv = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), view_category_select)],
     states={
-        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_category_select)],
+        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_weapon_type_select)],
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
         VIEW_DISPLAY: [

@@ -153,9 +153,10 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
     return VIEW_SET_COUNT
 
 # Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
+# Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 async def view_set_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['selected_weapon'] = update.message.text  # ✅ фикс: сохраняем выбранное оружие
     context.user_data['selected_category'] = context.user_data.get('selected_category')
-
 
     # Загружаем сборки из БД
     with open(DB_PATH, 'r') as f:

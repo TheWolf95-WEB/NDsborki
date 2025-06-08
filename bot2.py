@@ -750,7 +750,7 @@ view_conv = ConversationHandler(
     fallbacks=[
         CommandHandler("update", update_bot_command),
     ]
-  )
+)
 
 app.add_handler(view_conv)
 

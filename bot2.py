@@ -135,6 +135,7 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return VIEW_WEAPON
 
 # Показывает список оружия выбранного типа
+# Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_type'] = update.message.text
     with open(DB_PATH, 'r') as f:
@@ -144,6 +145,10 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text("Сборок по этому типу пока нет.")
         return ConversationHandler.END
     buttons = [[w] for w in weapons]
+    
+    # 🟢 Сохраняем выбранное оружие для дальнейших шагов
+    context.user_data['available_weapons'] = weapons
+
     await update.message.reply_text("Выберите оружие:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_SET_COUNT
 

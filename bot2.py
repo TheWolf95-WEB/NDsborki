@@ -353,7 +353,7 @@ async def get_module_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['module_count'] = int(update.message.text)
     context.user_data['selected_modules'] = []
     context.user_data['detailed_modules'] = {}
-    buttons = [[m] for m in context.user_data['module_options']]
+    buttons = [context.user_data['module_options'][i:i+2] for i in range(0, len(context.user_data['module_options']), 2)]
     await update.message.reply_text("Выберите модуль:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return MODULE_SELECT
 

@@ -383,7 +383,8 @@ async def module_variant_callback(update: Update, context: ContextTypes.DEFAULT_
         return IMAGE_UPLOAD
 
     # Если не все модули выбраны — предлагаем выбрать следующий
-    buttons = [[m] for m in context.user_data['module_options'] if m not in context.user_data['selected_modules']]
+    remaining = [m for m in context.user_data['module_options'] if m not in context.user_data['selected_modules']]
+    buttons = [remaining[i:i+2] for i in range(0, len(remaining), 2)]
     context.user_data['current_module'] = None
     await query.edit_message_reply_markup(reply_markup=None)
     await query.message.reply_text("Выберите следующий модуль:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))

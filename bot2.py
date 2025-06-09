@@ -1,4 +1,5 @@
 # Запуск уведомления после run_polling
+# Запуск уведомления после run_polling
 async def on_startup(app):
     if os.path.exists("restart_message.txt"):
         with open("restart_message.txt", "r") as f:
@@ -27,6 +28,24 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from logging.handlers import RotatingFileHandler
+
+# === Логирование ===
+os.makedirs("logs", exist_ok=True)
+
+# Обработчик для INFO и выше с ротацией
+info_handler = RotatingFileHandler("logs/info.log", maxBytes=1_000_000, backupCount=3, encoding="utf-8")
+info_handler.setLevel(logging.INFO)
+info_handler.addFilter(lambda record: record.levelno < logging.WARNING)
+
+# Обработчик для WARNING и выше с ротацией
+error_handler = RotatingFileHandler("logs/error.log", maxBytes=1_000_000, backupCount=3, encoding="utf-8")
+error_handler.setLevel(logging.WARNING)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[info_handler, error_handler]  # Без StreamHandler
+)
 
 
 # === Импорты и конфигурация ===
@@ -101,7 +120,7 @@ def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(menu, resize_keyboard=True)
 
 
-   
+
 
 # === Просмотр сборок по шагам ===
 async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -116,6 +135,7 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return VIEW_WEAPON
 
 # Показывает список оружия выбранного типа
+# Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_type'] = update.message.text
     with open(DB_PATH, 'r') as f:
@@ -125,13 +145,14 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.message.reply_text("Сборок по этому типу пока нет.")
         return ConversationHandler.END
     buttons = [[w] for w in weapons]
-    
+
     # 🟢 Сохраняем выбранное оружие для дальнейших шагов
     context.user_data['available_weapons'] = weapons
 
     await update.message.reply_text("Выберите оружие:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_SET_COUNT
 
+# Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 # Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 async def view_set_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_weapon'] = update.message.text  # ✅ фикс: сохраняем выбранное оружие
@@ -249,7 +270,7 @@ async def next_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data['current_index'] < len(context.user_data['viewed_builds']) - 1:
         context.user_data['current_index'] += 1
         return await send_build(update, context)
-    
+
 # Переход к предыдущей сборке
 async def previous_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data['current_index'] > 0:
@@ -574,7 +595,7 @@ async def update_bot_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
 
     await update.message.reply_text("♻️ Перезапуск бота...")
-    
+
     # Сохраняем ID для уведомления после запуска
     with open("restart_message.txt", "w") as f:
         f.write(str(update.effective_user.id))
@@ -604,7 +625,7 @@ async def show_all_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     result = "\n\n".join(lines)
     markup = ReplyKeyboardMarkup([['🏠 Главное меню']], resize_keyboard=True)
     await update.message.reply_text(result, reply_markup=markup, parse_mode="HTML")
-    
+
 # Отмена действия и сброс клавиатуры
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("❌ Действие отменено.", reply_markup=ReplyKeyboardRemove())
@@ -689,11 +710,12 @@ add_conv = ConversationHandler(
 
         IMAGE_UPLOAD: [MessageHandler(filters.PHOTO | filters.Document.IMAGE, handle_image)],
         CONFIRMATION: [
-            MessageHandler(filters.TEXT & filters.Regex("^Завершить$"), confirm_build),
-            MessageHandler(filters.TEXT & filters.Regex("^Отмена$"), cancel),
-            MessageHandler(filters.TEXT & ~filters.COMMAND, lambda u, c: u.message.reply_text(
+            MessageHandler(filters.Regex("Завершить"), confirm_build),
+            MessageHandler(filters.Regex("Отмена"), cancel),
+            MessageHandler(filters.ALL & ~filters.COMMAND, lambda u, c: u.message.reply_text(
                 "📍 Пожалуйста, нажмите кнопку «Завершить», чтобы сохранить сборку, или «Отмена», чтобы выйти."
             ))
+
         ]
 
     },
@@ -714,6 +736,7 @@ app.add_handler(add_conv)
 view_conv = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), view_category_select)],
     states={
+        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_weapon_type)],
         VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, show_all_builds)],
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
@@ -752,7 +775,7 @@ async def delete_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not os.path.exists(DB_PATH):
         await update.message.reply_text("❌ База сборок пуста.")
         return ConversationHandler.END
-    
+
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
 
@@ -854,13 +877,14 @@ app.add_handler(MessageHandler(filters.Regex("🏠 Главное меню"), st
 def load_translation_dict(weapon_type):
     file_map = {
         "Штурмовые винтовки": "database/modules-assault.json",
-        "Дробовики": "modules-drobovik.json",
-        "Пехотные винтовки": "modules-pehotnay.json",
-        "Пистолеты - пулеметы": "modules-drobovik.json",
-        "Ручные пулеметы": "modules-pulemet.json",
-        "Снайперские винтовки": "modules-snayperki.json",
+        "Дробовики": "database/modules-drobovik.json",
+        "Пехотные винтовки": "database/modules-pehotnay.json",
+        "Пистолеты - пулеметы": "database/modules-pp.json",
+        "Ручные пулеметы": "database/modules-pulemet.json",
+        "Снайперские винтовки": "database/modules-snayperki.json",
         # Добавь остальные типы по мере создания
     }
+
 
     filename = file_map.get(weapon_type)
     if not filename:
@@ -878,7 +902,7 @@ async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⚠️ Я не знаю такой команды.")
 
 app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
-
+More actions
 
 # Обработка любого текста, который не был пойман другими хендлерами
 async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):

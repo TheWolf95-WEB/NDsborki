@@ -902,7 +902,6 @@ async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⚠️ Я не знаю такой команды.")
 
 app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
-More actions
 
 # Обработка любого текста, который не был пойман другими хендлерами
 async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):

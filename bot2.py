@@ -710,7 +710,7 @@ add_conv = ConversationHandler(
 
         IMAGE_UPLOAD: [MessageHandler(filters.PHOTO | filters.Document.IMAGE, handle_image)],
         CONFIRMATION: [
-            MessageHandler(filters.Regex("Завершить"), confirm_build),
+            MessageHandler(filters.TEXT & filters.Regex("^Завершить$"), confirm_build),
             MessageHandler(filters.Regex("Отмена"), cancel),
             MessageHandler(filters.ALL & ~filters.COMMAND, lambda u, c: u.message.reply_text(
                 "📍 Пожалуйста, нажмите кнопку «Завершить», чтобы сохранить сборку, или «Отмена», чтобы выйти."

@@ -1,5 +1,4 @@
 # Запуск уведомления после run_polling
-# Запуск уведомления после run_polling
 async def on_startup(app):
     if os.path.exists("restart_message.txt"):
         with open("restart_message.txt", "r") as f:
@@ -28,24 +27,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from logging.handlers import RotatingFileHandler
-
-# === Логирование ===
-os.makedirs("logs", exist_ok=True)
-
-# Обработчик для INFO и выше с ротацией
-info_handler = RotatingFileHandler("logs/info.log", maxBytes=1_000_000, backupCount=3, encoding="utf-8")
-info_handler.setLevel(logging.INFO)
-info_handler.addFilter(lambda record: record.levelno < logging.WARNING)
-
-# Обработчик для WARNING и выше с ротацией
-error_handler = RotatingFileHandler("logs/error.log", maxBytes=1_000_000, backupCount=3, encoding="utf-8")
-error_handler.setLevel(logging.WARNING)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[info_handler, error_handler]  # Без StreamHandler
-)
 
 
 # === Импорты и конфигурация ===
@@ -135,7 +116,6 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return VIEW_WEAPON
 
 # Показывает список оружия выбранного типа
-# Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_type'] = update.message.text
     with open(DB_PATH, 'r') as f:
@@ -152,7 +132,6 @@ async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE)
     await update.message.reply_text("Выберите оружие:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_SET_COUNT
 
-# Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 # Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 async def view_set_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_weapon'] = update.message.text  # ✅ фикс: сохраняем выбранное оружие

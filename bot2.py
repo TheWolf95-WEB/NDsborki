@@ -325,12 +325,12 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['type'] = update.message.text
         # Загружаем модульный JSON по типу оружия
     file_map = {
-        "Штурмовые винтовки": "modules-assault.json",
-        "Дробовики": "modules-drobovik.json",
-        "Пехотные винтовки": "modules-pehotnay.json",
-        "Пистолеты - пулеметы": "modules-drobovik.json",
-        "Ручные пулеметы": "modules-pulemet.json",
-        "Снайперские винтовки": "modules-snayperki.json",
+        "Штурмовые винтовки": "database/modules-assault.json",
+        "Дробовики": "database/modules-drobovik.json",
+        "Пехотные винтовки": "database/modules-pehotnay.json",
+        "Пистолеты - пулеметы": "database/modules-pp.json",
+        "Ручные пулеметы": "database/modules-pulemet.json",
+        "Снайперские винтовки": "database/modules-snayperki.json",
         # Дополняй при необходимости
     }
 

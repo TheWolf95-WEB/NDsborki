@@ -280,8 +280,17 @@ async def add_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ У вас нет прав добавления.")
         await start(update, context)
         return ConversationHandler.END
+
+    await update.message.reply_text(
+        "🛠 <b>Режим добавления сборок включён</b>\n\n"
+        "📌 Следуйте пошаговым инструкциям, чтобы добавить новую сборку.\n"
+        "Вы можете в любой момент ввести <code>/cancel</code>, чтобы выйти.",
+        parse_mode="HTML"
+    )
+
     await update.message.reply_text("Введите название оружия:", reply_markup=ReplyKeyboardRemove())
     return WEAPON_NAME
+
 
 # Запрашивает название оружия и Дистанция 
 async def get_weapon_name(update: Update, context: ContextTypes.DEFAULT_TYPE):

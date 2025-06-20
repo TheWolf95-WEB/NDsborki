@@ -6,8 +6,6 @@ async def on_startup(app):
             user_id = int(f.read().strip())
         try:
             menu = [['📋 Сборки Warzone']]
-            if str(user_id) in os.getenv("ALLOWED_USERS", "").split(","):
-                menu.append(['➕ Добавить сборку'])
             markup = ReplyKeyboardMarkup(menu, resize_keyboard=True)
             await app.bot.send_message(
                 chat_id=user_id,

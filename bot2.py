@@ -660,17 +660,14 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 🧹 Сброс пользовательских данных (этапов)
     context.user_data.clear()
 
-    # 🔄 Сообщение пользователю
-    user = update.effective_user
-    msg = (
-        f"🔄 <b>Бот перезапускается...</b>\n\n"
-    )
-    await update.message.reply_text(msg, parse_mode="HTML")
+    await update.message.reply_text("🔄 Бот перезапускается...\n⏳ Пожалуйста, подождите пару секунд...")
+
 
 
     # 💾 Сохраняем имя + ID
     with open("restarted_by.txt", "w") as f:
         f.write(f"{user.full_name} (ID: {user.id})")
+
 
 
 

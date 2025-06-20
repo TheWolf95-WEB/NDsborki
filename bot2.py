@@ -664,15 +664,14 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     msg = (
         f"🔄 <b>Бот перезапускается...</b>\n\n"
-        f"👤 <b>Запрос от:</b> {user.full_name} (ID: <code>{user.id}</code>)\n"
-        f"🕒 Пожалуйста, подождите пару секунд..."
     )
     await update.message.reply_text(msg, parse_mode="HTML")
 
 
-    # 💾 Сохраняем ID для post-restart уведомления
+    # 💾 Сохраняем имя + ID
     with open("restarted_by.txt", "w") as f:
-        f.write(update.effective_user.full_name)
+        f.write(f"{user.full_name} (ID: {user.id})")
+
 
 
     # 💣 Завершаем процесс — systemd сам перезапустит

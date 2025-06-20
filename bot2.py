@@ -15,8 +15,8 @@ async def on_startup(app):
                 reply_markup=markup,
                 parse_mode="HTML"
             )
-        except Exception as e:
-            logging.warning(f"❌ Не удалось отправить сообщение после рестарта: {e}")
+        except Exception:
+            logging.exception("❌ Не удалось отправить сообщение после рестарта")
         os.remove("restart_message.txt")
 
 
@@ -361,6 +361,9 @@ async def get_module_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def module_variant_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
+    if 'current_module' not in context.user_data:
+    await query.message.reply_text("⚠️ Ошибка: модуль не выбран.")
+    return MODULE_SELECT
     variant = query.data
     current_module = context.user_data['current_module']
     context.user_data['detailed_modules'][current_module] = variant
@@ -524,7 +527,7 @@ async def get_logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("📤 Логи отправлены в админский канал.")
     except Exception as e:
         await update.message.reply_text("❌ Не удалось получить логи.")
-        logging.error(f"Ошибка при получении логов: {e}")
+        logging.exception("Ошибка при получении логов")
 
 
 
@@ -682,7 +685,6 @@ app.add_handler(CommandHandler("restart", restart_bot))
 app.add_handler(CommandHandler("help", help_command))
 app.add_handler(CommandHandler("show_all", show_all_command))
 app.add_handler(CommandHandler("status", status_command))
-app.add_handler(CommandHandler("update", update_bot_command))
 app.add_handler(CommandHandler("log", get_logs))
 
 
@@ -736,8 +738,10 @@ app.add_handler(add_conv)
 view_conv = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), view_category_select)],
     states={
-        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
-        VIEW_CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, show_all_builds)],
+        VIEW_CATEGORY_SELECT: [
+            MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon),
+            MessageHandler(filters.TEXT & ~filters.COMMAND, show_all_builds),
+        ],
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
         VIEW_DISPLAY: [
@@ -764,7 +768,6 @@ app.add_handler(CommandHandler("update", update_bot_command))
 # === Упрощённый режим удаления сборок по ID ===
 DELETE_ENTER_ID, DELETE_CONFIRM_SIMPLE = range(130, 132)
 
-delete_id_map = {}  # ID -> build (локально внутри сессии)
 
 # Запуск удаления — вывод списка с ID
 async def delete_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -783,11 +786,11 @@ async def delete_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Нет сборок для удаления.")
         return ConversationHandler.END
 
-    delete_id_map.clear()
+    context.user_data['delete_map'] = {}
     text_lines = ["🧾 Сборки для удаления:"]
 
     for idx, b in enumerate(data, start=1):
-        delete_id_map[str(idx)] = b
+        context.user_data['delete_map'][str(idx)] = b
         modules = "\n".join(f"🔸 {k}: {v}" for k, v in b['modules'].items())
         text_lines.append(
         f"{b['weapon_name']} (ID {idx})\nТип: {b['type']}\n\nМодулей: {len(b['modules'])}\n{modules}\n\nАвтор: {b['author']}"
@@ -812,12 +815,12 @@ async def stop_delete_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 # Ввод ID для удаления
 async def delete_enter_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     build_id = update.message.text.strip()
-    if build_id not in delete_id_map:
+    if build_id not in context.user_data.get('delete_map', {}):
         await update.message.reply_text("❌ Неверный ID. Попробуйте снова.")
         return DELETE_ENTER_ID
 
     context.user_data['delete_id'] = build_id
-    b = delete_id_map[build_id]
+    b = context.user_data['delete_map'][build_id]
 
     await update.message.reply_text(
         f"❗ Вы уверены, что хотите удалить сборку {b['weapon_name']} (ID: {build_id})?",
@@ -832,11 +835,11 @@ async def delete_confirm_simple(update: Update, context: ContextTypes.DEFAULT_TY
         return await delete_start(update, context)
 
     build_id = context.user_data.get('delete_id')
-    if not build_id or build_id not in delete_id_map:
+    if not build_id or build_id not in context.user_data.get('delete_map', {}):
         await update.message.reply_text("❌ Ошибка ID. Возврат к списку.")
         return await delete_start(update, context)
 
-    to_delete = delete_id_map[build_id]
+    to_delete = context.user_data['delete_map'][build_id]
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
 

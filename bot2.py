@@ -95,6 +95,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if user_id in ALLOWED_USERS:
         text = "Добро пожаловать в NDsborki BOT"
+        text += "\n\n🛠 Админ: используйте команду /add для добавления сборок."
     else:
         text = (
             "👋 <b>Добро пожаловать в NDsborki BOT!</b>\n\n"
@@ -114,10 +115,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === универсальная функция для клавиатуры === 
 def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
-    menu = [['📋 Сборки Warzone']]
-    if user_id in ALLOWED_USERS:
-        menu.append(['➕ Добавить сборку'])
-    return ReplyKeyboardMarkup(menu, resize_keyboard=True)
+    return ReplyKeyboardMarkup([['📋 Сборки Warzone']], resize_keyboard=True)
+
 
 
 
@@ -775,6 +774,9 @@ app.add_handler(view_conv)
 
 # ⬇️ Отдельно вне всех handlers — просто как обычную команду
 app.add_handler(CommandHandler("update", update_bot_command))
+
+app.add_handler(CommandHandler("add", add_start))
+
 
 
 # =========================================================================================

@@ -609,25 +609,37 @@ async def show_all_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not os.path.exists(DB_PATH):
         await update.message.reply_text("Список сборок пуст.")
         return
+
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
+
+    # ✅ Показываем только Warzone
+    data = [b for b in data if b.get("mode", "").lower() == "warzone"]
+
     if not data:
         await update.message.reply_text("Список сборок пуст.")
         return
 
     lines = ["📄 <b>Сборки Warzone:</b>"]
     for idx, b in enumerate(data, start=1):
-            lines.append(
-                f"<b>{idx}. {b['weapon_name'].upper()}</b>\n"
-                f"├ Дистанция: {b.get('role', '-')}\n"
-                f"├ Тип: {b['type']}\n"
-                f"├ Модулей: {len(b['modules'])}\n"
-                f"└ Автор: {b['author']}"
-            )
+        translation = load_translation_dict(b.get("type", ""))  # ✅ загрузка перевода
+        modules_text = "\n".join(
+            f"🔸 {k}: {translation.get(v, v)}" for k, v in b.get("modules", {}).items()
+        )
+
+        lines.append(
+            f"<b>{idx}. {b.get('weapon_name', '—').upper()}</b>\n"
+            f"├ Дистанция: {b.get('role', '-')}\n"
+            f"├ Тип: {b.get('type', '-')}\n"
+            f"├ Модулей: {len(b.get('modules', {}))}\n"
+            f"{modules_text}\n"
+            f"└ Автор: {b.get('author', '-')}"
+        )
 
     result = "\n\n".join(lines)
     markup = ReplyKeyboardMarkup([['🏠 Главное меню']], resize_keyboard=True)
     await update.message.reply_text(result, reply_markup=markup, parse_mode="HTML")
+
 
 # Отмена действия и сброс клавиатуры
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -793,7 +805,8 @@ async def delete_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     for idx, b in enumerate(data, start=1):
         context.user_data['delete_map'][str(idx)] = b
-        modules = "\n".join(f"🔸 {k}: {v}" for k, v in b['modules'].items())
+        translation = load_translation_dict(b.get("type", ""))
+        modules = "\n".join(f"🔸 {k}: {translation.get(v, v)}" for k, v in b.get("modules", {}).items())
         text_lines.append(
         f"{b['weapon_name']} (ID {idx})\nТип: {b['type']}\n\nМодулей: {len(b['modules'])}\n{modules}\n\nАвтор: {b['author']}"
     )

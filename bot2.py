@@ -661,7 +661,14 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
 
     # 🔄 Сообщение пользователю
-    await update.message.reply_text("🔄 Бот перезапускается...\n⏳ Пожалуйста, подождите пару секунд...")
+    user = update.effective_user
+    msg = (
+        f"🔄 <b>Бот перезапускается...</b>\n\n"
+        f"👤 <b>Запрос от:</b> {user.full_name} (ID: <code>{user.id}</code>)\n"
+        f"🕒 Пожалуйста, подождите пару секунд..."
+    )
+    await update.message.reply_text(msg, parse_mode="HTML")
+
 
     # 💾 Сохраняем ID для post-restart уведомления
     with open("restart_message.txt", "w") as f:

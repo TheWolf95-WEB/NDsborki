@@ -671,8 +671,9 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
     # 💾 Сохраняем ID для post-restart уведомления
-    with open("restart_message.txt", "w") as f:
-        f.write(str(user_id))
+    with open("restarted_by.txt", "w") as f:
+        f.write(update.effective_user.full_name)
+
 
     # 💣 Завершаем процесс — systemd сам перезапустит
     os._exit(0)

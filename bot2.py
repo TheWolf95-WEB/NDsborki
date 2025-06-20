@@ -362,8 +362,8 @@ async def module_variant_callback(update: Update, context: ContextTypes.DEFAULT_
     query = update.callback_query
     await query.answer()
     if 'current_module' not in context.user_data:
-    await query.message.reply_text("⚠️ Ошибка: модуль не выбран.")
-    return MODULE_SELECT
+        await query.message.reply_text("⚠️ Ошибка: модуль не выбран.")
+        return MODULE_SELECT
     variant = query.data
     current_module = context.user_data['current_module']
     context.user_data['detailed_modules'][current_module] = variant
@@ -651,6 +651,9 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # 💣 Завершаем процесс — systemd сам перезапустит
     os._exit(0)
+    with open("restart_message.txt", "w") as f:
+    f.write(str(update.effective_user.id))
+
 
 # Выбор категории в пользов части
 async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYPE):

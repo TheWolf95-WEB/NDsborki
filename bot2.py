@@ -17,7 +17,6 @@ async def on_startup(app):
             logging.exception("❌ Не удалось отправить сообщение после рестарта")
         os.remove("restart_message.txt")
 
-
 import asyncio
 import sys
 import subprocess
@@ -666,7 +665,8 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # 💾 Сохраняем имя + ID
     with open("restarted_by.txt", "w") as f:
-        f.write(f"{user.full_name} (ID: {user.id})")
+        f.write(f"{update.effective_user.full_name} (ID: {update.effective_user.id})")
+
 
 
 

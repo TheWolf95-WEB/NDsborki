@@ -656,23 +656,21 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
 
-    # 🧹 Сброс пользовательских данных (этапов)
     context.user_data.clear()
-
     await update.message.reply_text(
         "🔄 Бот перезапускается...\n⏳ Пожалуйста, подождите пару секунд..."
     )
 
-    # 💾 Сохраняем имя + ID для логов
+    # Для уведомления в лог-канал
     with open("restarted_by.txt", "w") as f:
         f.write(f"{user.full_name} (ID: {user.id})")
 
-    # 💾 Сохраняем ID для сообщения пользователю после рестарта
+    # Для личного уведомления после перезапуска
     with open("restart_message.txt", "w") as f:
         f.write(str(user.id))
 
-    # 💣 Завершаем процесс — systemd перезапустит
     os._exit(0)
+
 
 
 

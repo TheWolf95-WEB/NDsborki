@@ -651,8 +651,7 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # 💣 Завершаем процесс — systemd сам перезапустит
     os._exit(0)
-    with open("restart_message.txt", "w") as f:
-    f.write(str(update.effective_user.id))
+
 
 
 # Выбор категории в пользов части

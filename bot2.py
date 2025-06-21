@@ -743,7 +743,7 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
         "Новинки": "🆕 Новинки"
     }
 
-    # Подсчёт количества сборок на каждую категорию
+    # Подсчёт количества сборок по категории
     counts = {
         cat: sum(1 for b in data if b.get("mode", "").lower() == "warzone" and b.get("category") == cat)
         for cat in raw_categories
@@ -753,29 +753,25 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     user_input = update.message.text.strip()
     for key, label in raw_categories.items():
         if user_input.startswith(label):
-            # Загружаем key по label
-            label_to_key = {item["label"]: item["key"] for item in load_weapon_types()}
-            context.user_data['selected_type'] = label_to_key.get(user_input.strip(), user_input.strip())
+            context.user_data['selected_category'] = key
 
-            # Загрузка types.json
             weapon_types = load_weapon_types()
             key_to_label = {item["key"]: item["label"] for item in weapon_types}
-            
-            # Берём только уникальные ключи из базы данных
+
+            # Фильтруем доступные типы по выбранной категории
             type_keys = sorted(set(
                 b['type'] for b in data
                 if b.get("mode", "").lower() == "warzone" and b.get("category") == key
             ))
-            
-            # Формируем кнопки с label’ами
-            buttons = [[key_to_label.get(t, t)] for t in type_keys]
-            await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
-            return VIEW_WEAPON
 
-    # Первый запуск — вывод категорий с эмодзи и количеством
+            # Создаём кнопки с названиями (label)
+            buttons = [[key_to_label.get(t, t)] for t in type_keys]
+            context.user_data['type_map'] = key_to_label  # сохраним, пригодится
+            return await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+
+    # Первый запуск — вывод категорий
     buttons = [[f"{label} ({counts[key]})"] for key, label in raw_categories.items()]
-    await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
-    return VIEW_CATEGORY_SELECT
+    return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
 
 

@@ -753,6 +753,7 @@ add_conv = ConversationHandler(
     },
    fallbacks=[
     CommandHandler("cancel", cancel),
+    MessageHandler(filters.Regex("Отмена"), cancel)
     CommandHandler("update", update_bot_command),  # сюда
 ]
 )
@@ -784,6 +785,7 @@ view_conv = ConversationHandler(
     },
     fallbacks=[
         CommandHandler("update", update_bot_command),
+        MessageHandler(filters.Regex("Отмена"), cancel),
     ]
 )
 
@@ -894,7 +896,8 @@ simple_delete_conv = ConversationHandler(
         DELETE_CONFIRM_SIMPLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, delete_confirm_simple)],
     },
     fallbacks=[
-        CommandHandler("update", update_bot_command),  # 👈 добавлено
+        CommandHandler("update", update_bot_command),
+        MessageHandler(filters.Regex("Отмена"), cancel), 
     ]
 )
 app.add_handler(simple_delete_conv)
@@ -938,13 +941,14 @@ def load_translation_dict(weapon_type):
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⚠️ Я не знаю такой команды.")
 
-app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
-
-# Обработка любого текста, который не был пойман другими хендлерами
+# Обработка любого текста вне диалога
 async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🤖 Я не понимаю это сообщение. Используйте команды или кнопки.")
 
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message))
+# Регистрируем хендлеры с высоким group, чтобы они срабатывали в самом конце
+app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=99)
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=99)
+
 
 
 app.run_polling()

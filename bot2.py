@@ -831,8 +831,7 @@ view_conv = ConversationHandler(
     entry_points=[MessageHandler(filters.Regex("📋 Сборки Warzone"), view_category_select)],
     states={
         VIEW_CATEGORY_SELECT: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon),
-            MessageHandler(filters.TEXT & ~filters.COMMAND, show_all_builds),
+            MessageHandler(filters.TEXT & ~filters.COMMAND, view_category_select),  # ← только view_category_select
         ],
         VIEW_WEAPON: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_select_weapon)],
         VIEW_SET_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, view_set_count)],
@@ -848,8 +847,8 @@ view_conv = ConversationHandler(
         CommandHandler("home", home_command),
         MessageHandler(filters.Regex("Отмена"), cancel),
     ]
-    
 )
+
 
 app.add_handler(view_conv)
 

@@ -78,12 +78,6 @@ def admin_only(func):
     return wrapper
 
 
- # === Функция для загрузки типов === 
-def load_weapon_types():
-    with open("database/types.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
 # === Команда /start, главное меню ===
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("🔥 Новый код загружен с GitHub")
@@ -324,22 +318,38 @@ async def get_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return TYPE_CHOICE
 
 
+# === Функция для загрузки типов === 
+def load_weapon_types():
+    with open("database/types.json", "r", encoding="utf-8") as f:
+        return json.load(f)
 
-# Выбор количество модулей
+
+# === Выбор количества модулей (по key) ===
 async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['type'] = update.message.text
-        # Загружаем модульный JSON по типу оружия
+    selected_label = update.message.text.strip()
+    weapon_types = load_weapon_types()
+
+    # Находим ключ по тексту кнопки (label)
+    selected_key = next((item["key"] for item in weapon_types if item["label"] == selected_label), None)
+
+    if not selected_key:
+        await update.message.reply_text("❌ Тип оружия не распознан.")
+        return ConversationHandler.END
+
+    context.user_data['type'] = selected_key  # сохраняем key, а не label
+
+    # Маппинг key → файл
     file_map = {
-        "Штурмовые винтовки": "modules-assault.json",
-        "Дробовики": "modules-drobovik.json",
-        "Пехотные винтовки": "modules-pehotnay.json",
-        "Пистолеты - пулеметы": "modules-pp.json",
-        "Ручные пулеметы": "modules-pulemet.json",
-        "Снайперские винтовки": "modules-snayperki.json",
-        # Дополняй при необходимости
+        "assault": "modules-assault.json",
+        "smg": "modules-pp.json",
+        "shotgun": "modules-drobovik.json",
+        "marksman": "modules-pehotnay.json",
+        "lmg": "modules-pulemet.json",
+        "sniper": "modules-snayperki.json",
+        # добавь остальные при необходимости
     }
 
-    filename = file_map.get(context.user_data['type'])
+    filename = file_map.get(selected_key)
     if not filename:
         await update.message.reply_text("❌ Для выбранного типа оружия модули пока не настроены.")
         return ConversationHandler.END
@@ -352,6 +362,7 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text("Сколько модулей:", reply_markup=ReplyKeyboardMarkup([["5"], ["8"]], resize_keyboard=True))
     return MODULE_COUNT
+
 
 # Запрашивает выбор количество модулей (5 или 8)
 async def get_module_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -909,27 +920,26 @@ app.add_handler(MessageHandler(filters.Regex("🏠 Главное меню"), st
 
 
 # === Загрузка переводов для отображения сборок ===
-def load_translation_dict(weapon_type):
+def load_translation_dict(weapon_key):
     file_map = {
-        "Штурмовые винтовки": "modules-assault.json",
-        "Дробовики": "modules-drobovik.json",
-        "Пехотные винтовки": "modules-pehotnay.json",
-        "Пистолеты - пулеметы": "modules-pp.json",
-        "Ручные пулеметы": "modules-pulemet.json",
-        "Снайперские винтовки": "modules-snayperki.json",
-        # Дополняй при необходимости
+        "assault": "modules-assault.json",
+        "smg": "modules-pp.json",
+        "shotgun": "modules-drobovik.json",
+        "marksman": "modules-pehotnay.json",
+        "lmg": "modules-pulemet.json",
+        "sniper": "modules-snayperki.json",
+        # Добавь остальные при необходимости
     }
 
-
-    filename = file_map.get(weapon_type)
+    filename = file_map.get(weapon_key)
     if not filename:
         return {}
 
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(f"database/{filename}", "r", encoding="utf-8") as f:
         raw_data = json.load(f)
 
-    # Собираем словарь переводов: {"EN": "RU"}
     return {v['en']: v['ru'] for variants in raw_data.values() for v in variants}
+
 
 
 

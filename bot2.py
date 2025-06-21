@@ -366,8 +366,14 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Для выбранного типа оружия модули пока не настроены.")
         return ConversationHandler.END
 
-    with open(f"database/{filename}", "r", encoding="utf-8") as f:
-        module_data = json.load(f)
+    try:
+        with open(f"database/{filename}", "r", encoding="utf-8") as f:
+            module_data = json.load(f)
+    except Exception as e:
+        logging.exception(f"❌ Ошибка при загрузке файла {filename}")
+        await update.message.reply_text(f"❌ Не удалось загрузить модули для {selected_label}.\nОшибка: {e}")
+        return ConversationHandler.END
+
 
     context.user_data['module_variants'] = module_data
     context.user_data['module_options'] = list(module_data.keys())

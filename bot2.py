@@ -304,15 +304,16 @@ async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return MODE_SELECT
 
 
-
-# Запрашивает тип оружия)
 # Запрашивает тип оружия
 async def get_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['mode'] = update.message.text
     weapon_types = load_weapon_types()
 
-    # группируем по 2 в строку
-    buttons = [weapon_types[i:i+2] for i in range(0, len(weapon_types), 2)]
+    # Извлекаем label’ы (названия для кнопок)
+    labels = [item["label"] for item in weapon_types]
+
+    # группируем по 2 кнопки в строку
+    buttons = [labels[i:i+2] for i in range(0, len(labels), 2)]
 
     await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return TYPE_CHOICE
@@ -329,24 +330,25 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
     selected_label = update.message.text.strip()
     weapon_types = load_weapon_types()
 
-    # Находим ключ по тексту кнопки (label)
     selected_key = next((item["key"] for item in weapon_types if item["label"] == selected_label), None)
 
     if not selected_key:
-        await update.message.reply_text("❌ Тип оружия не распознан.")
-        return ConversationHandler.END
+        await update.message.reply_text("❌ Тип оружия не распознан. Пожалуйста, выберите из предложенных вариантов.")
+        return TYPE_CHOICE
 
-    context.user_data['type'] = selected_key  # сохраняем key, а не label
+    context.user_data['type'] = selected_key
 
     # Маппинг key → файл
     file_map = {
         "assault": "modules-assault.json",
+        "battle": "modules-battle.json",
         "smg": "modules-pp.json",
         "shotgun": "modules-drobovik.json",
         "marksman": "modules-pehotnay.json",
         "lmg": "modules-pulemet.json",
         "sniper": "modules-snayperki.json",
-        # добавь остальные при необходимости
+        "pistol": "modules-pistolet.json",
+        "special": "modules-osoboe.json"
     }
 
     filename = file_map.get(selected_key)
@@ -362,6 +364,7 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text("Сколько модулей:", reply_markup=ReplyKeyboardMarkup([["5"], ["8"]], resize_keyboard=True))
     return MODULE_COUNT
+
 
 
 # Запрашивает выбор количество модулей (5 или 8)

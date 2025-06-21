@@ -25,6 +25,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 from logging.handlers import RotatingFileHandler
+from collections import Counter
+from datetime import datetime
 
 # === Логирование ===
 os.makedirs("logs", exist_ok=True)
@@ -603,19 +605,18 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⛔ У вас нет доступа к этой команде.")
         return
 
-    # Чтение базы
     if not os.path.exists(DB_PATH):
         await update.message.reply_text("❌ База данных отсутствует.")
         return
 
     try:
-        with open(DB_PATH, 'r') as f:
+        with open(DB_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         await update.message.reply_text(f"❌ Ошибка при чтении БД: {e}")
         return
 
-    # Получение информации о systemd-сервисе
+    # Статус systemd
     try:
         result = subprocess.run(["systemctl", "is-active", "ndsborki.service"], capture_output=True, text=True)
         service_status = result.stdout.strip()
@@ -624,24 +625,24 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     total = len(data)
     last = data[-1] if data else {}
+    formatted_time = datetime.fromtimestamp(os.path.getmtime(DB_PATH)).strftime("%d.%m.%Y %H:%M")
 
-    msg = (
-        f"🖥 <b>Состояние systemd-сервиса:</b> <code>{service_status}</code>\n\n"
-        f"📦 Всего сборок: {total}\n\n"
-    )
+    authors = Counter(b.get("author", "—") for b in data)
+    categories = Counter(b.get("category", "—") for b in data)
 
-    if last:
-        msg += (
-            f"🆕 Последняя сборка:\n"
-            f"├ Оружие: {last['weapon_name']}\n"
-            f"├ Дистанция: {last.get('role', '-')}\n"
-            f"├ Тип: {last['type']}\n"
-            f"└ Автор: {last['author']}"
-        )
-    else:
-        msg += "❗ Сборки отсутствуют."
+    msg = [
+        f"🖥 <b>Systemd:</b> {service_status}",
+        f"📦 <b>Всего сборок:</b> {total}",
+        f"📅 <b>Последнее обновление:</b> {formatted_time}",
+        "",
+        "👤 <b>Авторы:</b>"
+    ]
+    msg += [f"• {name} — {count}" for name, count in authors.most_common()]
 
-    await update.message.reply_text(msg, parse_mode="HTML")
+    msg.append("\n📂 <b>Категории:</b>")
+    msg += [f"• {cat} — {count}" for cat, count in categories.items()]
+
+    await update.message.reply_text("\n".join(msg), parse_mode="HTML")
 
 
 # === Команда /home — возврат в главное меню ===

@@ -719,7 +719,10 @@ app.add_handler(CommandHandler("log", get_logs))
 
 
 add_conv = ConversationHandler(
-    entry_points=[MessageHandler(filters.Regex("➕ Добавить сборку"), add_start)],
+    entry_points=[
+        MessageHandler(filters.Regex("➕ Добавить сборку"), add_start)
+        CommandHandler("add", add_start),
+    ],
     states={
         WEAPON_NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_weapon_name)],
         ROLE_INPUT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_weapon_role)],
@@ -788,9 +791,6 @@ app.add_handler(view_conv)
 
 # ⬇️ Отдельно вне всех handlers — просто как обычную команду
 app.add_handler(CommandHandler("update", update_bot_command))
-
-app.add_handler(CommandHandler("add", add_start))
-
 
 
 # =========================================================================================

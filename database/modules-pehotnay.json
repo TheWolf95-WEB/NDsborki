@@ -1,154 +1,154 @@
+{
   "Подствольная планка": [
-            {
-                "ru": "Вертикальная рукоять",
-                "en": "Vertical Foregrip"
-            },
-            {
-                "ru": "Облегченная рукоять",
-                "en": "Lightweight Foregrip"
-            },
-            {
-                "ru": "Снайперская рукоять",
-                "en": "Marksman Foregrip"
-            },
-            {
-                "ru": "Высокоточная рукоять",
-                "en": "Precision Foregrip"
-            },
-            {
-                "ru": "Рейнджерская рукоять",
-                "en": "Ranger Foregrip"
-            },
-            {
-                "ru": "Гранатомет стандарт",
-                "en": "Launcher -- Standard"
-            },
-            {
-                "ru": "Гранатомет дым",
-                "en": "Launcher -- Smoke"
-            },
-            {
-                "ru": "Арбалет",
-                "en": "Crossbow"
-            },
-            {
-                "ru": "Гранатомет фугас",
-                "en": "Launcher High Explosive"
-            },
-            {
-                "ru": "Гранатомёт -- ЗВБ",
-                "en": "Launcher -- Drilll Charge"
-            },
-            {
-                "ru": "Снайперское цевье",
-                "en": "Marksman Handguard"
-            },
-            {
-                "ru": "Сбалансированное цевье",
-                "en": "Weighted Handguard"
-            },
-            {
-                "ru": "Облегченное цевье",
-                "en": "Lightweight Handguard"
-            },
-            {
-                "ru": "Высокоточное цевье",
-                "en": "Precision Handguard"
-            },
-            {
-                "ru": "Рейнджерское цевье",
-                "en": "Ranger Handguard"
-            }
-        ],
-        "Оптика": [
-            {
-                "ru": "На свой вкус",
-                "en": "Personal Choice"
-            }
-        ],
-        "Магазин": [
-            {
-                "ru": "Увеличенный магазин 1",
-                "en": "Extended Mag I"
-            },
-            {
-                "ru": "Быстросъемный магазин І",
-                "en": "Fast Mag I"
-            },
-            {
-                "ru": "Увеличенный магазин II",
-                "en": "Extended Mag II"
-            },
-            {
-                "ru": "Сдвоенный магазин",
-                "en": "Flip Mag"
-            },
-            {
-                "ru": "Автоматический увеличенный магазин",
-                "en": "Full-Auto Extended Mag"
-            },
-            {
-                "ru": "5,45 увеличенный магазин",
-                "en": "5.45 Extended Mag 1"
-            }
-        ],
-        "Модификации огня": [
-            {
-                "ru": "Скорострельность",
-                "en": "Rapid Fire"
-            },
-            {
-                "ru": "5,56 мм NАТО (усиленные)",
-                "en": "5.56 NATO Overpressured"
-            },
-            {
-                "ru": "Пружинный демпфер",
-                "en": "Recoil Springs"
-            },
-            {
-                "ru": "5,56 мм NАТО (ЦМО)",
-                "en": "5.56 NATO FMJ"
-            },
-            {
-                "ru": "Конверсионный набор Swat 5,56 Грау",
-                "en": "SWAT 5.56 Gray Conversion"
-            },
-            {
-                "ru": "7,62х54 мм В (усиленные)",
-                "en": "7.62x54mmR Overpressured"
-            },
-            {
-                "ru": "7,62х54 мм В (ЦМО)",
-                "en": "7.62x54mmR FMJ"
-            },
-            {
-                "ru": "Модификация «АвтоОгонь» Для АЕК-973",
-                "en": "AEK-973 Full Auto Mod"
-            },
-            {
-                "ru": "7,62х39 мм (усиленные)",
-                "en": "7.62x39mm Overpressured"
-            },
-            {
-                "ru": "7,62х39 мм (ЦМО)",
-                "en": "7.62x39mm FMJ"
-            },
-            {
-                "ru": "7,62 мм NАТО (усиленные)",
-                "en": "7.62 NATO Overpressured"
-            },
-            {
-                "ru": "7,62 мм NАТО (ЦМО)",
-                "en": "7.62 NATO FMJ"
-            },
-            {
-                "ru": "7,62 мм NATO (усиленные)",
-                "en": "7.62 NATO Overpressured"
-            },
-            {
-                "ru": "7,62 мм ПАТО (ЦМО)",
-                "en": "7.62 NATO FMJ"
-            }
-        ]
+    {
+      "ru": "Вертикальная рукоять",
+      "en": "Vertical Foregrip"
+    },
+    {
+      "ru": "Облегченная рукоять",
+      "en": "Lightweight Foregrip"
+    },
+    {
+      "ru": "Снайперская рукоять",
+      "en": "Marksman Foregrip"
+    },
+    {
+      "ru": "Высокоточная рукоять",
+      "en": "Precision Foregrip"
+    },
+    {
+      "ru": "Рейнджерская рукоять",
+      "en": "Ranger Foregrip"
+    },
+    {
+      "ru": "Гранатомет стандарт",
+      "en": "Launcher -- Standard"
+    },
+    {
+      "ru": "Гранатомет дым",
+      "en": "Launcher -- Smoke"
+    },
+    {
+      "ru": "Арбалет",
+      "en": "Crossbow"
+    },
+    {
+      "ru": "Гранатомет фугас",
+      "en": "Launcher High Explosive"
+    },
+    {
+      "ru": "Гранатомёт -- ЗВБ",
+      "en": "Launcher -- Drilll Charge"
+    },
+    {
+      "ru": "Снайперское цевье",
+      "en": "Marksman Handguard"
+    },
+    {
+      "ru": "Сбалансированное цевье",
+      "en": "Weighted Handguard"
+    },
+    {
+      "ru": "Облегченное цевье",
+      "en": "Lightweight Handguard"
+    },
+    {
+      "ru": "Высокоточное цевье",
+      "en": "Precision Handguard"
+    },
+    {
+      "ru": "Рейнджерское цевье",
+      "en": "Ranger Handguard"
     }
+  ],
+  "Оптика": [
+    {
+      "ru": "На свой вкус",
+      "en": "Personal Choice"
+    }
+  ],
+  "Магазин": [
+    {
+      "ru": "Увеличенный магазин 1",
+      "en": "Extended Mag I"
+    },
+    {
+      "ru": "Быстросъемный магазин І",
+      "en": "Fast Mag I"
+    },
+    {
+      "ru": "Увеличенный магазин II",
+      "en": "Extended Mag II"
+    },
+    {
+      "ru": "Сдвоенный магазин",
+      "en": "Flip Mag"
+    },
+    {
+      "ru": "Автоматический увеличенный магазин",
+      "en": "Full-Auto Extended Mag"
+    },
+    {
+      "ru": "5,45 увеличенный магазин",
+      "en": "5.45 Extended Mag 1"
+    }
+  ],
+  "Модификации огня": [
+    {
+      "ru": "Скорострельность",
+      "en": "Rapid Fire"
+    },
+    {
+      "ru": "5,56 мм NАТО (усиленные)",
+      "en": "5.56 NATO Overpressured"
+    },
+    {
+      "ru": "Пружинный демпфер",
+      "en": "Recoil Springs"
+    },
+    {
+      "ru": "5,56 мм NАТО (ЦМО)",
+      "en": "5.56 NATO FMJ"
+    },
+    {
+      "ru": "Конверсионный набор Swat 5,56 Грау",
+      "en": "SWAT 5.56 Gray Conversion"
+    },
+    {
+      "ru": "7,62х54 мм В (усиленные)",
+      "en": "7.62x54mmR Overpressured"
+    },
+    {
+      "ru": "7,62х54 мм В (ЦМО)",
+      "en": "7.62x54mmR FMJ"
+    },
+    {
+      "ru": "Модификация «АвтоОгонь» Для АЕК-973",
+      "en": "AEK-973 Full Auto Mod"
+    },
+    {
+      "ru": "7,62х39 мм (усиленные)",
+      "en": "7.62x39mm Overpressured"
+    },
+    {
+      "ru": "7,62х39 мм (ЦМО)",
+      "en": "7.62x39mm FMJ"
+    },
+    {
+      "ru": "7,62 мм NАТО (усиленные)",
+      "en": "7.62 NATO Overpressured"
+    },
+    {
+      "ru": "7,62 мм NАТО (ЦМО)",
+      "en": "7.62 NATO FMJ"
+    },
+    {
+      "ru": "7,62 мм NATO (усиленные)",
+      "en": "7.62 NATO Overpressured"
+    },
+    {
+      "ru": "7,62 мм ПАТО (ЦМО)",
+      "en": "7.62 NATO FMJ"
+    }
+  ]
 }

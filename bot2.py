@@ -330,15 +330,16 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
     selected_label = update.message.text.strip()
     weapon_types = load_weapon_types()
 
-    selected_key = next((item["key"] for item in weapon_types if item["label"] == selected_label), None)
+    # Мапа: label → key
+    label_to_key = {item["label"]: item["key"] for item in weapon_types}
+    selected_key = label_to_key.get(selected_label)
 
     if not selected_key:
-        await update.message.reply_text("❌ Тип оружия не распознан. Пожалуйста, выберите из предложенных вариантов.")
+        await update.message.reply_text("❌ Тип оружия не распознан. Пожалуйста, выберите из предложенных кнопок.")
         return TYPE_CHOICE
 
     context.user_data['type'] = selected_key
 
-    # Маппинг key → файл
     file_map = {
         "assault": "modules-assault.json",
         "battle": "modules-battle.json",

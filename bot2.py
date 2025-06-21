@@ -753,7 +753,7 @@ add_conv = ConversationHandler(
     },
    fallbacks=[
     CommandHandler("cancel", cancel),
-    MessageHandler(filters.Regex("Отмена"), cancel)
+    [MessageHandler(filters.Regex("Отмена"), cancel)]
     CommandHandler("update", update_bot_command),  # сюда
 ]
 )

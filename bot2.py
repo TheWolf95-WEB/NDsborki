@@ -932,22 +932,5 @@ def load_translation_dict(weapon_type):
     return {v['en']: v['ru'] for variants in raw_data.values() for v in variants}
 
 
-# Обработка неизвестной команды (например, /hack)
-async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Если не в состоянии диалога
-    if context.user_data.get("current_module") is None:
-        await update.message.reply_text("⚠️ Я не знаю такой команды.")
-
-# Обработка неизвестного текста вне диалога
-async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not context.user_data.get("weapon"):  # например, проверка стадии
-        await update.message.reply_text("🤖 Я не понимаю это сообщение. Используйте команды или кнопки.")
-
-# Регистрируем в самом конце
-app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=999)
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=999)
-
-
-
 
 app.run_polling()

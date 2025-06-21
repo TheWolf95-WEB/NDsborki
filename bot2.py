@@ -781,6 +781,7 @@ view_conv = ConversationHandler(
         CommandHandler("update", update_bot_command),
         MessageHandler(filters.Regex("Отмена"), cancel),
     ]
+    
 )
 
 app.add_handler(view_conv)
@@ -931,17 +932,17 @@ def load_translation_dict(weapon_type):
     return {v['en']: v['ru'] for variants in raw_data.values() for v in variants}
 
 
-# Обработка неизвестных команд (например, /hack)
-async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("⚠️ Я не знаю такой команды.")
+# # Обработка неизвестных команд (например, /hack)
+# async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     await update.message.reply_text("⚠️ Я не знаю такой команды.")
 
-# Обработка любого текста вне диалога
-async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🤖 Я не понимаю это сообщение. Используйте команды или кнопки.")
+# # Обработка любого текста вне диалога
+# async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     await update.message.reply_text("🤖 Я не понимаю это сообщение. Используйте команды или кнопки.")
 
-# Регистрируем хендлеры с высоким group, чтобы они срабатывали в самом конце
-app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=999)
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=999)
+# # Регистрируем хендлеры с высоким group, чтобы они срабатывали в самом конце
+# app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=999)
+# app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=999)
 
 
 

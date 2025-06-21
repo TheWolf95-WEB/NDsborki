@@ -742,7 +742,7 @@ add_conv = ConversationHandler(
             MessageHandler(filters.Regex("Отмена"), cancel),
             MessageHandler(filters.ALL & ~filters.COMMAND, lambda u, c: u.message.reply_text(
                 "📍 Пожалуйста, нажмите кнопку «Завершить», чтобы сохранить сборку, или «Отмена», чтобы выйти."
-            ))
+            )
         ]
     },
     fallbacks=[

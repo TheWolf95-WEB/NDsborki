@@ -1,204 +1,66 @@
 {
-    "Дуло": [
-        {
-            "ru": "Глушитель",
-            "en": "suppressor"
-        },
-        {
-            "ru": "Компенсатор",
-            "en": "Compennsator"
-        },
-        {
-            "ru": "Дульный тормоз",
-            "en": "Muzzle Brake"
-        },
-        {
-            "ru": "ДТК",
-            "en": "Ported Compencator"
-        },
-        {
-            "ru": "Монолитный глушитель",
-            "en": "Monolithic Suppressor"
-        }
-    ],
-        "Оптика": [
-        {
-            "ru": "На свой вкус",
-            "en": "Personal Choice"
-        }
-    ],
-    "Ствол": [
-        {
-            "ru": "Ствол с переменным шагом нарезов",
-            "en": "Gain-Twist Barrel"
-        },
-        {
-            "ru": "Удлиненный ствол",
-            "en": "Long Barrel"
-        },
-        {
-            "ru": "Усиленный ствол",
-            "en": "Reinforced Barrel"
-        },
-        {
-            "ru": "Короткий ствол",
-            "en": "Short Barrel"
-        },
-        {
-            "ru": "Ствол холодной ковки",
-            "en": "CHF Barrel"
-        }
-    ],
-    "Подствольная планка": [
-        {
-            "ru": "Вертикальная рукоятка",
-            "en": "Vertical Foregrip"
-        },
-        {
-            "ru": "Облегченная рукоятка",
-            "en": "Lightweight Foregrip"
-        },
-        {
-            "ru": "Снайперская рукоятка",
-            "en": "Marksman Foresgrip"
-        },
-        {
-            "ru": "Высокоточная рукоятка",
-            "en": "Precision Foregrip"
-        },
-        {
-            "ru": "Рейнджерская рукоятка",
-            "en": "Ranger Foregrip"
-        },
-        {
-            "ru": "Рукоять переноса огня",
-            "en": "Crossbar"
-        }
-    ],
-    "Магазин": [
-        {
-            "ru": "Увеличенный магазин 1",
-            "en": "Extented Mag 1"
-        },
-        {
-            "ru": "Увеличенный магазин 2",
-            "en": "Extented Mag 2"
-        },
-        {
-            "ru": "Увеличенный магазин 3",
-            "en": "Extented Mag 3"
-        },
-        {
-            "ru": "Увеличенный магазин 4",
-            "en": "Extented Mag 4"
-        },
-        {
-            "ru": "Быстросъемный магазин 1",
-            "en": "Fast Mag 1"
-        },
-        {
-            "ru": "Ленточный",
-            "en": "Belt-Fed"
-        }
-    ],
-    "Задняя рукоять": [
-        {
-            "ru": "Для быстрого прицеливания",
-            "en": "Quickdraw Grip"
-        },
-        {
-            "ru": "Штурмовая рукоять",
-            "en": "Assault Grip"
-        },
-        {
-            "ru": "Рукоять Коммандос",
-            "en": "Commando Grip"
-        },
-        {
-            "ru": "Эргонимическая Рукоять",
-            "en": "Ergonomic Grip"
-        },
-        {
-            "ru": "Рукоять для ближних дистанций",
-            "en": "CQB Grip"
-        }
-    ],
-    "Приклад": [
-        {
-            "ru": "Облегченный Приклад",
-            "en": "Light Stock"
-        },
-        {
-            "ru": "Приклад Лазутчика",
-            "en": "Infiltrator Stock"
-        },
-        {
-            "ru": "Тяжелый Приклад",
-            "en": "Heavy Stock"
-        },
-        {
-            "ru": "Сбалансированный Приклад",
-            "en": "Balanced Stock"
-        },
-        {
-            "ru": "Боевой Приклад",
-            "en": "Combat Stock"
-        },
-        {
-            "ru": "Приклад С буфером",
-            "en": "Buffer Weight Stock"
-        },
-        {
-            "ru": "Без приклада",
-            "en": "No Stock"
-        }
-    ],
-    "Лазер": [
-        {
-            "ru": "Стабилизированный лцу",
-            "en": "Steady Ain Laser"
-        },
-        {
-            "ru": "Лцу для маневренного боя",
-            "en": "Fast Motion Laser"
-        },
-        {
-            "ru": "Тактический лцу",
-            "en": "Tactical Laser"
-        },
-        {
-            "ru": "Лцу strelok",
-            "en": "Strelok Laser"
-        },
-        {
-            "ru": "Лцу",
-            "en": "Target Laser"
-        }
-    ],
-    "Модификация огня": [
-        {
-            "ru": "Скорострельность",
-            "en": "Rapid Fire"
-        },
-        {
-            "ru": "Пружинный демпфер",
-            "en": "Recoil Springs"
-        },
-        {
-            "ru": "5,45x39 mm (усиленные)",
-            "en": "5,45x39 mm Overpressured"
-        },
-        {
-            "ru": "5,45x39 mm(ЦМО)",
-            "en": "5,45x39 mm FMJ"
-        },
-        {
-            "ru": "7,62 Nato (Усиленные)",
-            "en": "7,62 Nato Overpressured"
-        },
-        {
-            "ru": "7,62 Nato(ЦМО)",
-            "en": "7,62 Nato FMJ"
-        }
-    ]
+  "Дуло": [
+    { "ru": "Глушитель", "en": "Suppressor" },
+    { "ru": "Компенсатор", "en": "Compensator" },
+    { "ru": "Дульный тормоз", "en": "Muzzle Brake" },
+    { "ru": "ДТК", "en": "Ported Compensator" },
+    { "ru": "Монолитный глушитель", "en": "Monolithic Suppressor" }
+  ],
+  "Оптика": [
+    { "ru": "На свой вкус", "en": "Personal Choice" }
+  ],
+  "Ствол": [
+    { "ru": "Ствол с переменным шагом нарезов", "en": "Gain-Twist Barrel" },
+    { "ru": "Удлиненный ствол", "en": "Long Barrel" },
+    { "ru": "Усиленный ствол", "en": "Reinforced Barrel" },
+    { "ru": "Короткий ствол", "en": "Short Barrel" },
+    { "ru": "Ствол холодной ковки", "en": "CHF Barrel" }
+  ],
+  "Подствольная планка": [
+    { "ru": "Вертикальная рукоятка", "en": "Vertical Foregrip" },
+    { "ru": "Облегченная рукоятка", "en": "Lightweight Foregrip" },
+    { "ru": "Снайперская рукоятка", "en": "Marksman Foregrip" },
+    { "ru": "Высокоточная рукоятка", "en": "Precision Foregrip" },
+    { "ru": "Рейнджерская рукоятка", "en": "Ranger Foregrip" },
+    { "ru": "Рукоять переноса огня", "en": "Crossbar" }
+  ],
+  "Магазин": [
+    { "ru": "Увеличенный магазин 1", "en": "Extended Mag 1" },
+    { "ru": "Увеличенный магазин 2", "en": "Extended Mag 2" },
+    { "ru": "Увеличенный магазин 3", "en": "Extended Mag 3" },
+    { "ru": "Увеличенный магазин 4", "en": "Extended Mag 4" },
+    { "ru": "Быстросъемный магазин 1", "en": "Fast Mag 1" },
+    { "ru": "Ленточный", "en": "Belt-Fed" }
+  ],
+  "Задняя рукоять": [
+    { "ru": "Для быстрого прицеливания", "en": "Quickdraw Grip" },
+    { "ru": "Штурмовая рукоять", "en": "Assault Grip" },
+    { "ru": "Рукоять Коммандос", "en": "Commando Grip" },
+    { "ru": "Эргонимическая Рукоять", "en": "Ergonomic Grip" },
+    { "ru": "Рукоять для ближних дистанций", "en": "CQB Grip" }
+  ],
+  "Приклад": [
+    { "ru": "Облегченный Приклад", "en": "Light Stock" },
+    { "ru": "Приклад Лазутчика", "en": "Infiltrator Stock" },
+    { "ru": "Тяжелый Приклад", "en": "Heavy Stock" },
+    { "ru": "Сбалансированный Приклад", "en": "Balanced Stock" },
+    { "ru": "Боевой Приклад", "en": "Combat Stock" },
+    { "ru": "Приклад С буфером", "en": "Buffer Weight Stock" },
+    { "ru": "Без приклада", "en": "No Stock" }
+  ],
+  "Лазер": [
+    { "ru": "Стабилизированный лцу", "en": "Steady Aim Laser" },
+    { "ru": "Лцу для маневренного боя", "en": "Fast Motion Laser" },
+    { "ru": "Тактический лцу", "en": "Tactical Laser" },
+    { "ru": "Лцу strelok", "en": "Strelok Laser" },
+    { "ru": "Лцу", "en": "Target Laser" }
+  ],
+  "Модификация огня": [
+    { "ru": "Скорострельность", "en": "Rapid Fire" },
+    { "ru": "Пружинный демпфер", "en": "Recoil Springs" },
+    { "ru": "5,45x39 mm (усиленные)", "en": "5.45x39 mm Overpressured" },
+    { "ru": "5,45x39 mm(ЦМО)", "en": "5.45x39 mm FMJ" },
+    { "ru": "7,62 Nato (Усиленные)", "en": "7.62 NATO Overpressured" },
+    { "ru": "7,62 Nato(ЦМО)", "en": "7.62 NATO FMJ" }
+  ]
 }

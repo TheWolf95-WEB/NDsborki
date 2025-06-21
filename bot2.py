@@ -940,8 +940,8 @@ async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🤖 Я не понимаю это сообщение. Используйте команды или кнопки.")
 
 # Регистрируем хендлеры с высоким group, чтобы они срабатывали в самом конце
-app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=99)
-app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=99)
+app.add_handler(MessageHandler(filters.COMMAND, unknown_command), group=999)
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, unknown_message), group=999)
 
 
 

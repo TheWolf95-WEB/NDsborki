@@ -696,7 +696,6 @@ async def show_all_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"├ Дистанция: {b.get('role', '-')}\n"
             f"├ Тип: {b.get('type', '-')}\n"
             f"├ Модулей: {len(b.get('modules', {}))}\n"
-            f"{modules_text}\n"
             f"└ Автор: {b.get('author', '-')}"
         )
 

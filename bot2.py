@@ -648,8 +648,10 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === Команда /home — возврат в главное меню ===
 async def home_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data.clear()  # 🧹 очищаем всю сессию пользователя
     await update.message.reply_text("🏠 Главное меню...")
     await start(update, context)
+
 
 
 

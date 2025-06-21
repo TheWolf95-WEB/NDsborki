@@ -720,7 +720,7 @@ app.add_handler(CommandHandler("log", get_logs))
 
 add_conv = ConversationHandler(
     entry_points=[
-        MessageHandler(filters.Regex("➕ Добавить сборку"), add_start)
+        MessageHandler(filters.Regex("➕ Добавить сборку"), add_start),
         CommandHandler("add", add_start),
     ],
     states={

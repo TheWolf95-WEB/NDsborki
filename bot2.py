@@ -751,7 +751,10 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     user_input = update.message.text.strip()
     for key, label in raw_categories.items():
         if user_input.startswith(label):
-            context.user_data['selected_category'] = key
+            # Загружаем key по label
+            label_to_key = {item["label"]: item["key"] for item in load_weapon_types()}
+            context.user_data['selected_type'] = label_to_key.get(user_input.strip(), user_input.strip())
+
             # Загрузка types.json
             weapon_types = load_weapon_types()
             key_to_label = {item["key"]: item["label"] for item in weapon_types}

@@ -644,28 +644,11 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(msg, parse_mode="HTML")
 
 
-# === Команда ОБНОВИТЬ ===
-async def update_bot_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id not in ALLOWED_USERS:
-        await update.message.reply_text("⛔ У вас нет доступа к этой команде.")
-        return
+# === Команда /home — возврат в главное меню ===
+async def home_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🏠 Главное меню...")
+    await start(update, context)
 
-    await update.message.reply_text("📥 Получаю обновления с GitHub...")
-
-    try:
-        result = subprocess.run(["git", "pull"], capture_output=True, text=True)
-        output = result.stdout + result.stderr
-
-        await update.message.reply_text(f"✅ Обновление завершено:\n<pre>{output}</pre>", parse_mode="HTML")
-    except Exception as e:
-        await update.message.reply_text(f"❌ Ошибка при обновлении: {e}")
-        return
-
-    await update.message.reply_text("♻️ Перезапуск бота...")
-
-    # Сохраняем ID для уведомления после запуска
-    with open("restart_message.txt", "w") as f:
-        f.write(str(update.effective_user.id))
 
 
 # === Команда /show_all — список всех сборок текстом ===
@@ -811,7 +794,7 @@ add_conv = ConversationHandler(
     fallbacks=[
         CommandHandler("cancel", cancel),
         MessageHandler(filters.Regex("^/cancel$"), cancel),
-        CommandHandler("update", update_bot_command),
+        CommandHandler("home", home_command),
     ]
 )
 
@@ -840,7 +823,7 @@ view_conv = ConversationHandler(
         ]
     },
     fallbacks=[
-        CommandHandler("update", update_bot_command),
+        CommandHandler("home", home_command),
         MessageHandler(filters.Regex("Отмена"), cancel),
     ]
     
@@ -849,7 +832,7 @@ view_conv = ConversationHandler(
 app.add_handler(view_conv)
 
 # ⬇️ Отдельно вне всех handlers — просто как обычную команду
-app.add_handler(CommandHandler("update", update_bot_command))
+app.add_handler(CommandHandler("home", home_command))
 
 
 # =========================================================================================
@@ -950,7 +933,7 @@ simple_delete_conv = ConversationHandler(
         DELETE_CONFIRM_SIMPLE: [MessageHandler(filters.TEXT & ~filters.COMMAND, delete_confirm_simple)],
     },
     fallbacks=[
-        CommandHandler("update", update_bot_command),
+        CommandHandler("home", home_command),
         MessageHandler(filters.Regex("Отмена"), cancel), 
     ]
 )

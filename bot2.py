@@ -110,6 +110,33 @@ def get_main_menu(user_id: int) -> ReplyKeyboardMarkup:
 
 
 
+@admin_only
+async def check_files(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    import os
+
+    file_map = {
+        "assault": "modules-assault.json",
+        "battle": "modules-battle.json",
+        "smg": "modules-pp.json",
+        "shotgun": "modules-drobovik.json",
+        "marksman": "modules-pehotnay.json",
+        "lmg": "modules-pulemet.json",
+        "sniper": "modules-snayperki.json",
+        "pistol": "modules-pistolet.json",
+        "special": "modules-osoboe.json"
+    }
+
+    msg_lines = ["🔍 Проверка файлов в /database:"]
+    for key, fname in file_map.items():
+        path = f"database/{fname}"
+        if os.path.exists(path):
+            msg_lines.append(f"✅ {key}: <code>{fname}</code> — найден")
+        else:
+            msg_lines.append(f"❌ {key}: <code>{fname}</code> — отсутствует")
+
+    await update.message.reply_text("\n".join(msg_lines), parse_mode="HTML")
+
+
 
 
 # === Просмотр сборок по шагам ===
@@ -746,6 +773,8 @@ app.add_handler(CommandHandler("help", help_command))
 app.add_handler(CommandHandler("show_all", show_all_command))
 app.add_handler(CommandHandler("status", status_command))
 app.add_handler(CommandHandler("log", get_logs))
+app.add_handler(CommandHandler("check_files", check_files))
+
 
 
 add_conv = ConversationHandler(

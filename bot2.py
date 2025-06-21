@@ -158,22 +158,32 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data['selected_type'] = update.message.text
+    selected_label = update.message.text.strip()
+
+    # Получаем map label → key
+    label_to_key = {v: k for k, v in context.user_data.get('type_map', {}).items()}
+    selected_key = label_to_key.get(selected_label, selected_label)
+
+    context.user_data['selected_type'] = selected_key
+
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
-    weapons = sorted(set(b['weapon_name'] for b in data if b['type'] == context.user_data['selected_type'] and b.get('category') == context.user_data.get('selected_category')))
+
+    weapons = sorted(set(
+        b['weapon_name'] for b in data
+        if b['type'] == selected_key and b.get('category') == context.user_data.get('selected_category')
+    ))
+
     if not weapons:
         await update.message.reply_text("Сборок по этому типу пока нет.")
         return ConversationHandler.END
-    buttons = [[w] for w in weapons]
 
-    # 🟢 Сохраняем выбранное оружие для дальнейших шагов
     context.user_data['available_weapons'] = weapons
+    buttons = [[w] for w in weapons]
 
     await update.message.reply_text("Выберите оружие:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_SET_COUNT
 
-# Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 # Просит выбрать количество модулей (5 или 8), с указанием количества доступных сборок
 async def view_set_count(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_weapon'] = update.message.text  # ✅ фикс: сохраняем выбранное оружие

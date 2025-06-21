@@ -327,6 +327,15 @@ def load_weapon_types():
 
 # === Выбор количества модулей (по key) ===
 async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        # Логируем, что ввёл пользователь
+    logging.info(f"[get_type] Введён label: {selected_label!r}")
+    
+    # Логируем все доступные варианты
+    logging.info("[get_type] Все доступные label → key:")
+    for label, key in label_to_key.items():
+        logging.info(f" - {label!r} → {key}")
+
+    
     selected_label = update.message.text.strip()
     weapon_types = load_weapon_types()
 

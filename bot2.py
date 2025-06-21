@@ -624,26 +624,25 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         service_status = f"⚠️ Ошибка при проверке systemd: {e}"
 
     total = len(data)
-    last = data[-1] if data else {}
     formatted_time = datetime.fromtimestamp(os.path.getmtime(DB_PATH)).strftime("%d.%m.%Y %H:%M")
 
     authors = Counter(b.get("author", "—") for b in data)
     categories = Counter(b.get("category", "—") for b in data)
 
     msg = [
-        f"🖥 <b>Systemd:</b> {service_status}",
-        f"📦 <b>Всего сборок:</b> {total}",
-        f"📅 <b>Последнее обновление:</b> {formatted_time}",
+        f"🖥 <b>Состояние сервиса:</b> <code>{service_status}</code>",
+        f"📦 <b>Всего сборок:</b> <code>{total}</code>",
+        f"📅 <b>Обновлено:</b> <code>{formatted_time}</code>",
         "",
-        "👤 <b>Авторы:</b>"
+        "👥 <b>Авторы:</b>"
     ]
-    msg += [f"• {name} — {count}" for name, count in authors.most_common()]
+    msg += [f"• <b>{name}</b> — <code>{count}</code>" for name, count in authors.most_common()]
 
-    msg.append("\n📂 <b>Категории:</b>")
-    msg += [f"• {cat} — {count}" for cat, count in categories.items()]
+    if categories:
+        msg.append("\n📁 <b>Категории сборок:</b>")
+        msg += [f"• <b>{cat}</b> — <code>{count}</code>" for cat, count in categories.items()]
 
     await update.message.reply_text("\n".join(msg), parse_mode="HTML")
-
 
 # === Команда /home — возврат в главное меню ===
 async def home_command(update: Update, context: ContextTypes.DEFAULT_TYPE):

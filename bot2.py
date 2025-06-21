@@ -725,26 +725,39 @@ async def restart_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Выбор категории в пользов части
 async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    with open(DB_PATH, 'r') as f:
+    if not os.path.exists(DB_PATH):
+        await update.message.reply_text("⚠️ База данных не найдена.")
+        return ConversationHandler.END
+
+    with open(DB_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    categories = sorted(set(b.get('category', 'Мета') for b in data if b.get('mode', '').lower() == 'warzone'))
+    categories = ["Топовая мета", "Мета", "Новинки"]
 
-    # Если пользователь выбирает категорию (второй заход)
-    if update.message.text in categories:
-        context.user_data['selected_category'] = update.message.text
+    # Подсчёт сборок для каждой категории
+    counts = {
+        cat: sum(1 for b in data if b.get("mode", "").lower() == "warzone" and b.get("category") == cat)
+        for cat in categories
+    }
+
+    # Если пользователь выбрал категорию
+    raw_text = update.message.text.strip()
+    selected = raw_text.split(" (")[0]
+    if selected in categories:
+        context.user_data['selected_category'] = selected
         types = sorted(set(
             b['type'] for b in data
-            if b.get('mode', '').lower() == 'warzone' and b.get('category') == update.message.text
+            if b.get("mode", "").lower() == "warzone" and b.get("category") == selected
         ))
         buttons = [[t] for t in types]
         await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
         return VIEW_WEAPON
 
-    # Первый заход — предложить категории
-    buttons = [[c] for c in categories]
+    # Первый запуск — показать категории с количеством
+    buttons = [[f"{cat} ({counts[cat]})"] for cat in categories]
     await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_CATEGORY_SELECT
+
 
 
 # === Регистрация хендлеров ===

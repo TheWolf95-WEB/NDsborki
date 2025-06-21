@@ -348,16 +348,32 @@ async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Запрашивает тип оружия
 async def get_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['mode'] = update.message.text
+
+    # Загружаем weapon_types
     weapon_types = load_weapon_types()
+    key_to_label = {item["key"]: item["label"] for item in weapon_types}
 
-    # Извлекаем label’ы (названия для кнопок)
-    labels = [item["label"] for item in weapon_types]
+    # Загружаем сборки
+    with open(DB_PATH, 'r', encoding='utf-8') as f:
+        data = json.load(f)
 
-    # группируем по 2 кнопки в строку
+    # Фильтруем по режиму и категории
+    available_keys = sorted(set(
+        b['type'] for b in data
+        if b.get("mode", "").lower() == context.user_data['mode'].lower()
+        and b.get("category") == context.user_data.get("category")
+    ))
+
+    # Сохраняем соответствие key → label
+    context.user_data['type_map'] = {key: key_to_label.get(key, key) for key in available_keys}
+
+    # Строим кнопки с label
+    labels = list(context.user_data['type_map'].values())
     buttons = [labels[i:i+2] for i in range(0, len(labels), 2)]
 
     await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return TYPE_CHOICE
+
 
 
 # === Функция для загрузки типов === 

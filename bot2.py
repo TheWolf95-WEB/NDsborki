@@ -1,5 +1,4 @@
 # Запуск уведомления после run_polling
-# Запуск уведомления после run_polling
 async def on_startup(app):
     if os.path.exists("restart_message.txt"):
         with open("restart_message.txt", "r") as f:
@@ -27,6 +26,10 @@ load_dotenv()
 from logging.handlers import RotatingFileHandler
 from collections import Counter
 from datetime import datetime
+
+# Установка абсолютного пути к директории проекта
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(BASE_DIR)
 
 # === Логирование ===
 os.makedirs("logs", exist_ok=True)
@@ -153,7 +156,6 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
     return VIEW_WEAPON
 
-# Показывает список оружия выбранного типа
 # Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['selected_type'] = update.message.text

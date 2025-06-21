@@ -354,21 +354,20 @@ def load_weapon_types():
 
 # === Выбор количества модулей (по key) ===
 async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        # Логируем, что ввёл пользователь
-    logging.info(f"[get_type] Введён label: {selected_label!r}")
-    
-    # Логируем все доступные варианты
-    logging.info("[get_type] Все доступные label → key:")
-    for label, key in label_to_key.items():
-        logging.info(f" - {label!r} → {key}")
-
-    
     selected_label = update.message.text.strip()
     weapon_types = load_weapon_types()
 
     # Мапа: label → key
     label_to_key = {item["label"]: item["key"] for item in weapon_types}
     selected_key = label_to_key.get(selected_label)
+
+    # Логируем, что ввёл пользователь
+    logging.info(f"[get_type] Введён label: {selected_label!r}")
+
+    # Логируем все доступные варианты
+    logging.info("[get_type] Все доступные label → key:")
+    for label, key in label_to_key.items():
+        logging.info(f" - {label!r} → {key}")
 
     if not selected_key:
         await update.message.reply_text("❌ Тип оружия не распознан. Пожалуйста, выберите из предложенных кнопок.")
@@ -401,12 +400,15 @@ async def get_type(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"❌ Не удалось загрузить модули для {selected_label}.\nОшибка: {e}")
         return ConversationHandler.END
 
-
     context.user_data['module_variants'] = module_data
     context.user_data['module_options'] = list(module_data.keys())
 
-    await update.message.reply_text("Сколько модулей:", reply_markup=ReplyKeyboardMarkup([["5"], ["8"]], resize_keyboard=True))
+    await update.message.reply_text(
+        "Сколько модулей:",
+        reply_markup=ReplyKeyboardMarkup([["5"], ["8"]], resize_keyboard=True)
+    )
     return MODULE_COUNT
+
 
 
 

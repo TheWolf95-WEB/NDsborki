@@ -911,13 +911,13 @@ app.add_handler(MessageHandler(filters.Regex("🏠 Главное меню"), st
 # === Загрузка переводов для отображения сборок ===
 def load_translation_dict(weapon_type):
     file_map = {
-        "Штурмовые винтовки": "database/modules-assault.json",
-        "Дробовики": "database/modules-drobovik.json",
-        "Пехотные винтовки": "database/modules-pehotnay.json",
-        "Пистолеты - пулеметы": "database/modules-pp.json",
-        "Ручные пулеметы": "database/modules-pulemet.json",
-        "Снайперские винтовки": "database/modules-snayperki.json",
-        # Добавь остальные типы по мере создания
+        "Штурмовые винтовки": "modules-assault.json",
+        "Дробовики": "modules-drobovik.json",
+        "Пехотные винтовки": "modules-pehotnay.json",
+        "Пистолеты - пулеметы": "modules-pp.json",
+        "Ручные пулеметы": "modules-pulemet.json",
+        "Снайперские винтовки": "modules-snayperki.json",
+        # Дополняй при необходимости
     }
 
 

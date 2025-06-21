@@ -158,13 +158,12 @@ async def show_all_builds(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Показывает список оружия выбранного типа
 async def view_select_weapon(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
     selected_label = update.message.text.strip()
-
-    # Получаем map label → key
-    label_to_key = {v: k for k, v in context.user_data.get('type_map', {}).items()}
+    label_to_key = context.user_data.get('label_to_key', {})
     selected_key = label_to_key.get(selected_label, selected_label)
-
     context.user_data['selected_type'] = selected_key
+
 
     with open(DB_PATH, 'r') as f:
         data = json.load(f)
@@ -799,6 +798,8 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     buttons = [[f"{label} ({counts[key]})"] for key, label in raw_categories.items()]
     return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
+        # Сохраняем только label → key (а не key_to_label)
+    context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}
 
 
 

@@ -752,11 +752,18 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     for key, label in raw_categories.items():
         if user_input.startswith(label):
             context.user_data['selected_category'] = key
-            types = sorted(set(
+            # Загрузка types.json
+            weapon_types = load_weapon_types()
+            key_to_label = {item["key"]: item["label"] for item in weapon_types}
+            
+            # Берём только уникальные ключи из базы данных
+            type_keys = sorted(set(
                 b['type'] for b in data
                 if b.get("mode", "").lower() == "warzone" and b.get("category") == key
             ))
-            buttons = [[t] for t in types]
+            
+            # Формируем кнопки с label’ами
+            buttons = [[key_to_label.get(t, t)] for t in type_keys]
             await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
             return VIEW_WEAPON
 

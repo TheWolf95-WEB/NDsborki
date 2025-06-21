@@ -737,6 +737,7 @@ add_conv = ConversationHandler(
     states={
         WEAPON_NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_weapon_name)],
         ROLE_INPUT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_weapon_role)],
+        CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_category)],  # ⬅ ВЕРХ
         MODE_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_mode)],
         TYPE_CHOICE: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_type)],
         MODULE_COUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_module_count)],
@@ -745,11 +746,6 @@ add_conv = ConversationHandler(
             MessageHandler(filters.PHOTO | filters.Document.IMAGE, reject_early_image),
             CallbackQueryHandler(module_variant_callback),
         ],
-        POST_CONFIRM: [
-            MessageHandler(filters.Regex("➕ Добавить ещё одну сборку"), add_start),
-            MessageHandler(filters.Regex("◀ Отмена"), start)
-        ],
-        CATEGORY_SELECT: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_category)],
         IMAGE_UPLOAD: [MessageHandler(filters.PHOTO | filters.Document.IMAGE, handle_image)],
         CONFIRMATION: [
             MessageHandler(filters.TEXT & filters.Regex("^Завершить$"), confirm_build),
@@ -757,18 +753,21 @@ add_conv = ConversationHandler(
             MessageHandler(filters.ALL & ~filters.COMMAND, lambda u, c: u.message.reply_text(
                 "📍 Пожалуйста, нажмите кнопку «Завершить», чтобы сохранить сборку, или «Отмена», чтобы выйти.")
             )
-        ]
+        ],
+        POST_CONFIRM: [
+            MessageHandler(filters.Regex("➕ Добавить ещё одну сборку"), add_start),
+            MessageHandler(filters.Regex("◀ Отмена"), start)
+        ],
     },
     fallbacks=[
         CommandHandler("cancel", cancel),
         MessageHandler(filters.Regex("^/cancel$"), cancel),
         CommandHandler("update", update_bot_command),
     ]
-
 )
 
-
 app.add_handler(add_conv)
+
 
 
 # =======================================================================================

@@ -260,7 +260,7 @@ async def send_build(update: Update, context: ContextTypes.DEFAULT_TYPE):
     caption = (
         f"Оружие: {build['weapon_name']}\n"
         f"Дистанция: {build.get('role', '-')}\n"
-        f"Тип: {build['type']}\n\n"
+        f"Тип: {get_type_label_by_key(build['type'])}\n\n"
         f"Модули: {len(build['modules'])}\n"
         f"{modules_text}\n\n"
         f"Автор: {build['author']}"
@@ -969,6 +969,18 @@ app.add_handler(CallbackQueryHandler(stop_delete_callback, pattern="^stop_delete
 app.add_handler(MessageHandler(filters.Regex("🏠 Главное меню"), start))
 
 # ==================== КОНЕЦ удаления сборки ===================================== 
+
+def get_type_label_by_key(type_key):
+    try:
+        with open("database/types.json", "r", encoding="utf-8") as f:
+            types = json.load(f)
+            for t in types:
+                if t["key"] == type_key:
+                    return t["label"]
+    except Exception as e:
+        logging.warning(f"❌ Не удалось загрузить types.json: {e}")
+    return type_key  # fallback
+
 
 
 # === Загрузка переводов для отображения сборок ===

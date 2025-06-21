@@ -732,7 +732,12 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     with open(DB_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    categories = ["Топовая мета", "Мета", "Новинки"]
+    categories = {
+        "Топовая мета": "🔥 Топовая мета",
+        "Мета": "📈 Мета",
+        "Новинки": "🆕 Новинки"
+    }
+
 
     # Подсчёт сборок для каждой категории
     counts = {

@@ -796,12 +796,11 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
 
     # Первый запуск — вывод категорий
     buttons = [[f"{label} ({counts[key]})"] for key, label in raw_categories.items()]
-    return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
-        # Сохраняем только label → key (а не key_to_label)
+            # Сохраняем только label → key (а не key_to_label)
     context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}
-
-
+    
+    return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
 
 # === Регистрация хендлеров ===

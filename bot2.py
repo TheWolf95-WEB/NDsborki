@@ -772,7 +772,7 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
         for cat in raw_categories
     }
 
-    user_input = update.message.text.strip().split(" (")[0]  # 🔧 важно: убрать счётчик
+    user_input = update.message.text.strip().split(" (")[0]
 
     for key, label in raw_categories.items():
         if user_input == label:
@@ -787,12 +787,13 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
             ))
 
             buttons = [[key_to_label.get(t, t)] for t in type_keys]
-            context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}  # 🔧 сохраняем
+            context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}
             return await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
-    # если пользователь просто нажал 📋 кнопку и ничего не выбрал
+    # Если просто нажали «📋 Сборки Warzone» — показать список категорий
     buttons = [[f"{label} ({counts[key]})"] for key, label in raw_categories.items()]
-    return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+    await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+    return VIEW_CATEGORY_SELECT
 
 
 

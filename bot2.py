@@ -761,46 +761,39 @@ async def view_category_select(update: Update, context: ContextTypes.DEFAULT_TYP
     with open(DB_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    # Названия категорий и эмодзи
     raw_categories = {
         "Топовая мета": "🔥 Топовая мета",
         "Мета": "📈 Мета",
         "Новинки": "🆕 Новинки"
     }
 
-    # Подсчёт количества сборок по категории
     counts = {
         cat: sum(1 for b in data if b.get("mode", "").lower() == "warzone" and b.get("category") == cat)
         for cat in raw_categories
     }
 
-    # Обработка выбора категории
-    user_input = update.message.text.strip()
+    user_input = update.message.text.strip().split(" (")[0]  # 🔧 важно: убрать счётчик
+
     for key, label in raw_categories.items():
-        if user_input.startswith(label):
+        if user_input == label:
             context.user_data['selected_category'] = key
 
             weapon_types = load_weapon_types()
             key_to_label = {item["key"]: item["label"] for item in weapon_types}
 
-            # Фильтруем доступные типы по выбранной категории
             type_keys = sorted(set(
                 b['type'] for b in data
                 if b.get("mode", "").lower() == "warzone" and b.get("category") == key
             ))
 
-            # Создаём кнопки с названиями (label)
             buttons = [[key_to_label.get(t, t)] for t in type_keys]
-            context.user_data['type_map'] = key_to_label  # сохраним, пригодится
+            context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}  # 🔧 сохраняем
             return await update.message.reply_text("Выберите тип оружия:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
 
-    # Первый запуск — вывод категорий
+    # если пользователь просто нажал 📋 кнопку и ничего не выбрал
     buttons = [[f"{label} ({counts[key]})"] for key, label in raw_categories.items()]
-
-            # Сохраняем только label → key (а не key_to_label)
-    context.user_data['label_to_key'] = {v: k for k, v in key_to_label.items()}
-    
     return await update.message.reply_text("Выберите категорию:", reply_markup=ReplyKeyboardMarkup(buttons, resize_keyboard=True))
+
 
 
 # === Регистрация хендлеров ===
